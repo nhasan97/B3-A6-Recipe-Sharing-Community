@@ -19,6 +19,12 @@ const UserSideBarMenu = () => {
       />
 
       <SidebarMenuItem
+        icon={<BiSolidCategory />}
+        menuText="Profile"
+        route="/user-dashboard/user-profile"
+      />
+
+      <SidebarMenuItem
         icon={<i className="fa-solid fa-arrow-left" />}
         menuText="Back to Site"
         route="/"

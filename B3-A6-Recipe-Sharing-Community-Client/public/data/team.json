@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Camila Lee",
+    "designation": "Founder & CEO",
+    "say": "contact me anytime you need through my socials",
+    "imageUrl": "https://i.ibb.co/TWpNcgv/t1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Adam Miller",
+    "designation": "Chief Technology Officer",
+    "say": "contact me anytime you need through my socials",
+    "imageUrl": "https://i.ibb.co/ggC55cC/t2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Christina Perish",
+    "designation": "Chief Operating Officer",
+    "say": "contact me anytime you need through my socials",
+    "imageUrl": "https://i.ibb.co/WgCQgSG/t3.jpg"
+  }
+]
