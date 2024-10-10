@@ -71,10 +71,25 @@ const getRecipeCount = catchAsync(async (req, res) => {
   });
 });
 
+const updateRecipeStatus = catchAsync(async (req, res) => {
+  const recipe = await RecipeServices.updateRecipeStatusIntoDB(
+    req?.params?.id,
+    req?.query?.status as string
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'recipe status changed Successfully',
+    data: recipe,
+  });
+});
+
 export const RecipeControllers = {
   createRecipe,
   getAllRecipes,
   getRecipesByUser,
   getSingleRecipe,
   getRecipeCount,
+  updateRecipeStatus,
 };

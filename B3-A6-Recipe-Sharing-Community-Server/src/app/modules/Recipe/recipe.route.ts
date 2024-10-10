@@ -29,4 +29,11 @@ router.get('/user/:id', RecipeControllers.getRecipesByUser);
 
 router.get('/count/all-recipe', RecipeControllers.getRecipeCount);
 
+router.patch(
+  '/:id',
+  auth(USER_ROLE.ADMIN),
+  // validateRequest(UserValidation.updateUserValidationSchema),
+  RecipeControllers.updateRecipeStatus
+);
+
 export const RecipeRoutes = router;

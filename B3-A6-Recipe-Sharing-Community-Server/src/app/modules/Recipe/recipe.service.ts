@@ -125,10 +125,23 @@ const getRecipeCountFromDB = async () => {
   return response;
 };
 
+const updateRecipeStatusIntoDB = async (id: string, status: string) => {
+  const query = { _id: id };
+  const option = { upsert: false };
+  const updatedDoc = {
+    $set: { status },
+  };
+
+  const result = await Recipe.updateOne(query, updatedDoc, option);
+
+  return result;
+};
+
 export const RecipeServices = {
   createRecipeIntoDB,
   getAllRecipesFromDB,
   getRecipesByUserFromDB,
   getRecipeCountFromDB,
   getSingleRecipeFromDB,
+  updateRecipeStatusIntoDB,
 };
