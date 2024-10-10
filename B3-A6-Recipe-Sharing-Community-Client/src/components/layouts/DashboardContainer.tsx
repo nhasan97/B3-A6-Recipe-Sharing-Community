@@ -1,4 +1,4 @@
-import { TChildren } from "@/src/types";
+import { TChildren } from "@/src/types/children.type";
 
 const DashboardContainer = ({ children }: TChildren) => {
   return (

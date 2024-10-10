@@ -1,6 +1,6 @@
 "use client";
 
-import { IFXInputProps } from "@/src/types";
+import { IFXInputProps } from "@/src/types/FX.type";
 import { Input } from "@nextui-org/input";
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -21,7 +21,7 @@ const FXInput = ({
   return (
     <Input
       {...register(name)}
-      errorMessage={errors[name] ? (errors[name].message as string) : ""}
+      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       isInvalid={!!errors[name]}
       variant={variant}
       size={size}

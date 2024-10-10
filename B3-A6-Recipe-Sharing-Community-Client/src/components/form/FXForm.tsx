@@ -1,6 +1,6 @@
 "use client";
 
-import { IFormConfig, IFormProps } from "@/src/types";
+import { IFormConfig, IFormProps } from "@/src/types/FX.type";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 

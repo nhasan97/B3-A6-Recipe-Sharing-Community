@@ -1,4 +1,4 @@
-import { ISelectProps } from "@/src/types";
+import { ISelectProps } from "@/src/types/FX.type";
 import { Select, SelectItem } from "@nextui-org/select";
 import { useFormContext } from "react-hook-form";
 
@@ -19,7 +19,7 @@ const FXSelect = ({
   return (
     <Select
       {...register(name)}
-      errorMessage={errors[name] ? (errors[name].message as string) : ""}
+      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       isInvalid={!!errors[name]}
       variant={variant}
       size={size}
