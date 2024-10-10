@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { Button } from "@nextui-org/button";
 import {
   Modal,
@@ -8,6 +7,7 @@ import {
   //   ModalFooter,
   useDisclosure,
 } from "@nextui-org/modal";
+import { IFXModalProps } from "@/src/types/FX.type";
 
 const FXModal = ({
   title,
@@ -15,21 +15,7 @@ const FXModal = ({
   children,
   buttonVariant = "light",
   buttonClassName = "",
-}: {
-  title: string;
-  buttonText: string;
-  children: ReactNode;
-  buttonVariant?:
-    | "solid"
-    | "bordered"
-    | "light"
-    | "flat"
-    | "faded"
-    | "shadow"
-    | "ghost"
-    | undefined;
-  buttonClassName?: string;
-}) => {
+}: IFXModalProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
