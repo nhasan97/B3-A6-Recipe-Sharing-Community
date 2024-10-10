@@ -17,6 +17,10 @@ router.post(
 );
 router.get('/', UserControllers.getAllUsers);
 router.get('/admins', UserControllers.getAllAdmins);
+router.get(
+  '/without/blocked/:email',
+  UserControllers.getAllUsersWithoutBlocked
+);
 router.get('/:id', UserControllers.getSingleUser);
 router.patch(
   '/:id',

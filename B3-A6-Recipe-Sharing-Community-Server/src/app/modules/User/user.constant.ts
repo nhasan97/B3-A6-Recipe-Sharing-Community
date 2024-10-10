@@ -8,6 +8,11 @@ export const USER_STATUS = {
   BLOCKED: 'BLOCKED',
 } as const;
 
+export const USER_TYPE = {
+  NORMAL: 'NORMAL',
+  PRO: 'PRO',
+} as const;
+
 export const UserSearchableFields = [
   'name',
   'email',

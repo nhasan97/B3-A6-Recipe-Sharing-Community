@@ -2,7 +2,7 @@
 import bcryptjs from 'bcryptjs';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
-import { USER_ROLE, USER_STATUS } from './user.constant';
+import { USER_ROLE, USER_STATUS, USER_TYPE } from './user.constant';
 import { IUserModel, TUser } from './user.interface';
 
 const userSchema = new Schema<TUser, IUserModel>(
@@ -45,6 +45,29 @@ const userSchema = new Schema<TUser, IUserModel>(
     profilePhoto: {
       type: String,
       default: null,
+    },
+    bio: {
+      type: String,
+      required: false,
+      default: 'Always learning and growing.',
+    },
+    followers: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+      required: true,
+      default: [],
+    },
+    following: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+      required: true,
+      default: [],
+    },
+    userType: {
+      type: String,
+      enum: Object.keys(USER_TYPE),
+      required: true,
+      default: USER_TYPE.NORMAL,
     },
     isDeleted: {
       type: Boolean,

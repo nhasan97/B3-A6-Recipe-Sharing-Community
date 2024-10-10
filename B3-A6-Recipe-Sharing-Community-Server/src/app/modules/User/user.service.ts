@@ -1,5 +1,5 @@
 import { QueryBuilder } from '../../builder/QueryBuilder';
-import { USER_ROLE, UserSearchableFields } from './user.constant';
+import { USER_ROLE, USER_STATUS, UserSearchableFields } from './user.constant';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
@@ -12,6 +12,29 @@ const createUser = async (payload: TUser) => {
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const users = new QueryBuilder(
     User.find({ role: { $ne: USER_ROLE.ADMIN } }),
+    query
+  )
+    .fields()
+    .paginate()
+    .sort()
+    .filter()
+    .search(UserSearchableFields);
+
+  const result = await users.modelQuery;
+
+  return result;
+};
+
+const getAllUsersFromDBWithoutBlocked = async (
+  query: Record<string, unknown>,
+  email: string
+) => {
+  const users = new QueryBuilder(
+    User.find({
+      role: { $ne: USER_ROLE.ADMIN },
+      status: { $ne: USER_STATUS.BLOCKED },
+      email: { $ne: email },
+    }),
     query
   )
     .fields()
@@ -65,5 +88,6 @@ export const UserServices = {
   getAllUsersFromDB,
   getSingleUserFromDB,
   getAllAdminsFromDB,
+  getAllUsersFromDBWithoutBlocked,
   updateUserStatus,
 };

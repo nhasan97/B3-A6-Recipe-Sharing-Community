@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
-import { USER_ROLE, USER_STATUS } from './user.constant';
+import { Model, ObjectId } from 'mongoose';
+import { USER_ROLE, USER_STATUS, USER_TYPE } from './user.constant';
 
 export type TUser = {
   _id?: string;
@@ -12,6 +12,10 @@ export type TUser = {
   passwordChangedAt?: Date;
   mobileNumber?: string;
   profilePhoto?: string;
+  bio?: string;
+  followers: ObjectId[];
+  following: ObjectId[];
+  userType: keyof typeof USER_TYPE;
   isDeleted?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

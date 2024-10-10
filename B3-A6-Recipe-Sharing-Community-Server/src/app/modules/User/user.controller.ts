@@ -25,6 +25,20 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
+const getAllUsersWithoutBlocked = catchAsync(async (req, res) => {
+  const users = await UserServices.getAllUsersFromDBWithoutBlocked(
+    req.query,
+    req.params.email
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Users Retrieved Successfully',
+    data: users,
+  });
+});
+
 const getAllAdmins = catchAsync(async (req, res) => {
   const users = await UserServices.getAllAdminsFromDB(req.query);
 
@@ -67,4 +81,5 @@ export const UserControllers = {
   getAllUsers,
   getAllAdmins,
   updateUserStatus,
+  getAllUsersWithoutBlocked,
 };
