@@ -11,29 +11,35 @@ import notFound from './app/middlewares/notFound';
 
 const app: Application = express();
 
-app.use(cors());
-app.use(cookieParser());
-
-//parser
+//Using json parser by express and cors parser
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({ origin: '*', credentials: true }));
+// app.use(
+//   cors({
+//     origin: [
+//       'http://localhost:3000',
+//       'https://sports-facility-platform.web.app',
+//       'https://sports-facility-platform.firebaseapp.com',
+//     ],
+//     credentials: true,
+//   })
+// );
 app.use(express.urlencoded({ extended: true }));
 
+//application routes
 app.use('/api/v1', routes);
 
 // meiliClient.index('items').deleteAllDocuments();
 
-//Testing
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.status(httpStatus.OK).json({
-    success: true,
-    message: 'Welcome to the Lost And Found API',
-  });
+app.get('/', (req: Request, res: Response) => {
+  res.send('Server Started!');
 });
 
-//global error handler
-app.use(globalErrorHandler);
+//not found route
+app.all('*', notFound);
 
-//handle not found
-app.use(notFound);
+//Using global error handler
+app.use(globalErrorHandler);
 
 export default app;
