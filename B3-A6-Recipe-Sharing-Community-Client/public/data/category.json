@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "category": "Cakes",
+    "image": "https://i.ibb.co.com/J39P8JQ/images.jpg"
+  },
+  {
+    "id": 2,
+    "category": "Fast Food",
+    "image": "https://i.ibb.co.com/9wmBwrv/Food-Photography-By-Joe-Candela-Veni-Vidi-Vista-aerial.jpg"
+  },
+  {
+    "id": 3,
+    "category": "Drinks",
+    "image": "https://i.ibb.co.com/W62HCnF/Intro23.png"
+  },
+  {
+    "id": 4,
+    "category": "Seafood",
+    "image": "https://i.ibb.co.com/PNMWTRX/shutterstock-1773695441-min-600x600.jpg"
+  },
+  {
+    "id": 5,
+    "category": "Salads",
+    "image": "https://i.ibb.co.com/6b2Xx4C/20230321-0623-DINNER-IS-SERVED-20154.webp"
+  },
+  {
+    "id": 6,
+    "category": "Desserts",
+    "image": "https://i.ibb.co.com/ZhBcqhM/web-Deserts-Photo.jpg"
+  },
+  {
+    "id": 7,
+    "category": "Beverages",
+    "image": "https://i.ibb.co.com/k8CQ7N0/summer-refreshing-beverages-photo.jpg"
+  },
+  {
+    "id": 8,
+    "category": "Grilled",
+    "image": "https://i.ibb.co.com/YfdjcvL/Grilled-BBQ-Chicken-Overhead.jpg"
+  },
+  {
+    "id": 9,
+    "category": "Vegan",
+    "image": "https://i.ibb.co.com/YtGhq0y/5-nutrients-vegans-might-be-missing.webp"
+  },
+  {
+    "id": 10,
+    "category": "Ice Cream",
+    "image": "https://i.ibb.co.com/D77kx7g/strawberry-ice-cream-recipe2.jpg"
+  },
+  {
+    "id": 11,
+    "category": "Bakery",
+    "image": "https://i.ibb.co.com/wLkS8hp/premium-photo-1665669263531-cdcbe18e7fe4.jpg"
+  },
+  {
+    "id": 12,
+    "category": "Pasta",
+    "image": "https://i.ibb.co.com/K5kbRSx/How-to-Make-Chicken-Alfredo-Pasta-hero-02082017.webp"
+  },
+  {
+    "id": 13,
+    "category": "BBQ",
+    "image": "https://i.ibb.co.com/qx7cVqM/istockphoto-531464020-612x612.jpg"
+  },
+  {
+    "id": 14,
+    "category": "Snacks",
+    "image": "https://i.ibb.co.com/Jj9Sm8c/images-2.jpg"
+  },
+  {
+    "id": 15,
+    "category": "Smoothies",
+    "image": "https://i.ibb.co.com/Bcdngnk/frozen-fruit-smoothie-3.jpg"
+  },
+  {
+    "id": 16,
+    "category": "Dairy",
+    "image": "https://i.ibb.co.com/hyTZrFK/360-F-585504652-mx2-E5z-Y3-SZx-OE9yju-HAr-UIMWFwe-Ag-HY6.jpg"
+  },
+  {
+    "id": 17,
+    "category": "Frozen Foods",
+    "image": "https://i.ibb.co.com/4gDnR3f/images-3.jpg"
+  },
+  {
+    "id": 18,
+    "category": "Soups",
+    "image": "https://i.ibb.co.com/q9JGcxb/25097.jpg"
+  },
+  {
+    "id": 19,
+    "category": "Fruits",
+    "image": "https://i.ibb.co.com/NxXZCbG/Fruit-Recipes-Fruit-Salad.jpg"
+  },
+  {
+    "id": 20,
+    "category": "Sushi",
+    "image": "https://i.ibb.co.com/5rpFxLZ/Maki-zushi.webp"
+  }
+]

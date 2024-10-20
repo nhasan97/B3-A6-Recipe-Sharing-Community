@@ -1,5 +1,5 @@
+import LoadingPage from "@/src/components/shared/LoadingPage";
 import React from "react";
-import LoadingPage from "../components/shared/LoadingPage";
 
 const loading = () => {
   return <LoadingPage />;
