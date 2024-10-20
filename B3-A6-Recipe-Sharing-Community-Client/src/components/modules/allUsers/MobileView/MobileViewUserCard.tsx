@@ -8,7 +8,7 @@ import { Image } from "@nextui-org/image";
 import { toast } from "sonner";
 
 const MobileViewUserCard = ({ user }: { user: IUser }) => {
-  const { mutate: handleChangeUserStatus } = useChangeUserStatus();
+  const { mutate: handleChangeUserStatus, isPending } = useChangeUserStatus();
 
   const handleBlockUnblockUser = (status: string) => {
     toast.warning("Are you sure to change user status?", {
@@ -47,12 +47,12 @@ const MobileViewUserCard = ({ user }: { user: IUser }) => {
           </div>
           {user?.status === "ACTIVE" && (
             <Button onClick={() => handleBlockUnblockUser("BLOCKED")}>
-              Block
+              {isPending ? "Blocking..." : "Block"}
             </Button>
           )}
           {user?.status === "BLOCKED" && (
             <Button onClick={() => handleBlockUnblockUser("ACTIVE")}>
-              Unblock
+              {isPending ? "Unblocking..." : "Unblock"}
             </Button>
           )}
         </div>

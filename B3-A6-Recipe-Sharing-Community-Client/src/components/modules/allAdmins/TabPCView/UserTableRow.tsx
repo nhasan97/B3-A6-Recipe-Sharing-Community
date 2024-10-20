@@ -7,7 +7,7 @@ import { Image } from "@nextui-org/image";
 import { toast } from "sonner";
 
 const UserTableRow = ({ user }: { user: IUser }) => {
-  const { mutate: handleChangeUserStatus } = useChangeUserStatus();
+  const { mutate: handleChangeUserStatus, isPending } = useChangeUserStatus();
 
   const handleBlockUnblockUser = (status: string) => {
     toast.warning("Are you sure to change user status?", {
@@ -50,12 +50,12 @@ const UserTableRow = ({ user }: { user: IUser }) => {
       <td className="flex-1">
         {user?.status === "ACTIVE" && (
           <Button onClick={() => handleBlockUnblockUser("BLOCKED")}>
-            Block
+            {isPending ? "Blocking..." : "Block"}
           </Button>
         )}
         {user?.status === "BLOCKED" && (
           <Button onClick={() => handleBlockUnblockUser("ACTIVE")}>
-            Unblock
+            {isPending ? "Unblocking..." : "Unblock"}
           </Button>
         )}
       </td>

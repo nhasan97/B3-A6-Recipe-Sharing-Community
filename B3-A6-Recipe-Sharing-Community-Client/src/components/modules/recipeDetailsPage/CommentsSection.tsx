@@ -25,7 +25,7 @@ const CommentsSection = ({
   const methods = useForm();
   const { handleSubmit } = methods;
   const { user } = useUser();
-  const { mutate: handleCreateComment } = usePostComment();
+  const { mutate: handleCreateComment, isPending } = usePostComment();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const commentPost = {
@@ -38,7 +38,7 @@ const CommentsSection = ({
   };
 
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="flex flex-col justify-between gap-6">
       <div className="h-[10%]">
         <h3 className="text-3xl">Comments ({commentData?.data?.length})</h3>
       </div>
@@ -57,7 +57,7 @@ const CommentsSection = ({
                 <FXInput name="comment" label="Your comment" />
 
                 <Button type="submit" className="absolute right-2">
-                  Post
+                  {isPending ? "Posting..." : "Post"}
                 </Button>
               </div>
             </form>
@@ -65,7 +65,7 @@ const CommentsSection = ({
         )}
         {!user?.email && (
           <AuthenticationModal
-            buttonText="Comment"
+            buttonText="Add Comment"
             redirect={`recipe-details/${recipeId}`}
           />
         )}
