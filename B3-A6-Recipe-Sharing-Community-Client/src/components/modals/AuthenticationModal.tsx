@@ -4,16 +4,38 @@ import Link from "next/link";
 import FXModal from "./FXModal";
 
 interface IProps {
-  buttonText: string;
-  redirect: string;
+  buttonText: string | React.ReactNode;
+  buttonVariant?:
+    | "solid"
+    | "bordered"
+    | "light"
+    | "flat"
+    | "faded"
+    | "shadow"
+    | "ghost"
+    | undefined;
+  buttonClassName?: string;
+  buttonSize?: "sm" | "md" | "lg";
+  radius?: "none" | "sm" | "md" | "lg" | "full";
+  redirect?: string;
 }
 // `/login?redirect=found-items/${id}`
-const AuthenticationModal = ({ buttonText, redirect }: IProps) => {
+const AuthenticationModal = ({
+  buttonText,
+  buttonVariant,
+  buttonClassName,
+  buttonSize,
+  radius,
+  redirect,
+}: IProps) => {
   return (
     <FXModal
       title="Authentication"
       buttonText={buttonText}
-      buttonClassName="flex-1"
+      buttonClassName={`flex-1 ${buttonClassName}`}
+      buttonVariant={buttonVariant}
+      buttonSize={buttonSize}
+      radius={radius}
     >
       <div>
         You are not currently logged in. Please login first to continue.

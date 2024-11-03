@@ -54,10 +54,42 @@ export const getCurrentUser = async () => {
       role: decodedToken.role,
       email: decodedToken.email,
       status: decodedToken.status,
+      userType: decodedToken.userType,
       mobileNumber: decodedToken.mobileNumber,
       profilePhoto: decodedToken.profilePhoto,
     };
   }
 
   return decodedToken;
+};
+
+export const forgotPassword = async (email: FieldValues): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post("/auth/forget-password", email);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(`Failed ${error.message}`);
+  }
+};
+
+export const resetPassword = async (
+  token: string,
+  resetData: FieldValues
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post(
+      "/auth/reset-password",
+      resetData,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+
+    return data;
+  } catch (error: any) {
+    throw new Error(`Failed ${error.message}`);
+  }
 };
