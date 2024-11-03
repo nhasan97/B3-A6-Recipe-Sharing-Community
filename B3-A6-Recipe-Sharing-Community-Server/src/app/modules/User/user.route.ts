@@ -15,16 +15,30 @@ router.post(
   validateRequest(UserValidation.createUserValidationSchema),
   UserControllers.userRegister
 );
+
 router.get('/', UserControllers.getAllUsers);
+
 router.get('/admins', UserControllers.getAllAdmins);
+
 router.get(
   '/without/blocked/:email',
   UserControllers.getAllUsersWithoutBlocked
 );
+
 router.get('/:id', UserControllers.getSingleUser);
+
+router.get('/count/all-users', UserControllers.getUsersCount);
+
+router.patch('/:id', auth(USER_ROLE.ADMIN), UserControllers.updateUserStatus);
+
 router.patch(
-  '/:id',
-  auth(USER_ROLE.ADMIN),
-  // validateRequest(UserValidation.updateUserValidationSchema),
-  UserControllers.updateUserStatus
+  '/become-pro/:id',
+  auth(USER_ROLE.USER),
+  UserControllers.updateUserType
+);
+
+router.patch(
+  '/follow-unfollow/user',
+  auth(USER_ROLE.USER, USER_ROLE.ADMIN),
+  UserControllers.followUnfollowMember
 );

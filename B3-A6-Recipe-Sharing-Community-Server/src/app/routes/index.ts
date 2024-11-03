@@ -5,6 +5,8 @@ import { ProfileRoutes } from '../modules/Profile/profile.route';
 import { MeilisearchRoutes } from '../modules/Meilisearch/meilisearch.routes';
 import { RecipeRoutes } from '../modules/Recipe/recipe.route';
 import { CommentRoutes } from '../modules/Comments/comment.route';
+import { RatingRoutes } from '../modules/Rating/rating.route';
+import { paymentRoutes } from '../modules/Payment/payment.route';
 
 const router = express.Router();
 
@@ -22,6 +24,10 @@ const moduleRoutes = [
     route: CommentRoutes,
   },
   {
+    path: '/ratings',
+    route: RatingRoutes,
+  },
+  {
     path: '/search-items',
     route: MeilisearchRoutes,
   },
@@ -32,6 +38,10 @@ const moduleRoutes = [
   {
     path: '/profile',
     route: ProfileRoutes,
+  },
+  {
+    path: '/confirmation',
+    route: paymentRoutes,
   },
 ];
 
