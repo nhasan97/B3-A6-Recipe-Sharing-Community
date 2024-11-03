@@ -31,6 +31,7 @@ const registerUser = async (payload: TRegisterUser) => {
     profilePhoto: newUser.profilePhoto,
     role: newUser.role,
     status: newUser.status,
+    userType: newUser.userType,
   };
 
   const accessToken = createToken(
@@ -50,6 +51,7 @@ const registerUser = async (payload: TRegisterUser) => {
     refreshToken,
   };
 };
+
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
   const user = await User.isUserExistsByEmail(payload?.email);
@@ -81,6 +83,7 @@ const loginUser = async (payload: TLoginUser) => {
     profilePhoto: user.profilePhoto,
     role: user.role,
     status: user.status,
+    userType: user.userType,
   };
 
   const accessToken = createToken(
@@ -180,8 +183,10 @@ const refreshToken = async (token: string) => {
     name: user.name,
     email: user.email,
     mobileNumber: user.mobileNumber,
+    profilePhoto: user.profilePhoto,
     role: user.role,
     status: user.status,
+    userType: user.userType,
   };
 
   const accessToken = createToken(

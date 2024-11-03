@@ -34,7 +34,7 @@ export class QueryBuilder<T> {
 
     if (this.query?.page) {
       const page: number = Number(this.query?.page || 1);
-      skip = Number((page - 1) * limit);
+      skip = page * limit;
     }
 
     this.modelQuery = this.modelQuery.skip(skip).limit(limit);

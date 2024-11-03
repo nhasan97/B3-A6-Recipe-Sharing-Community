@@ -2,14 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import AppError from '../errors/AppError';
-import { USER_ROLE, USER_STATUS } from '../modules/User/user.constant';
-
-// _id: user._id,
-//     name: user.name,
-//     email: user.email,
-//     mobileNumber: user.mobileNumber,
-//     role: user.role,
-//     status: user.status,
+import {
+  USER_ROLE,
+  USER_STATUS,
+  USER_TYPE,
+} from '../modules/User/user.constant';
 
 export const createToken = (
   jwtPayload: {
@@ -19,6 +16,7 @@ export const createToken = (
     mobileNumber?: string;
     role: keyof typeof USER_ROLE;
     status: keyof typeof USER_STATUS;
+    userType: keyof typeof USER_TYPE;
   },
   secret: string,
   expiresIn: string
