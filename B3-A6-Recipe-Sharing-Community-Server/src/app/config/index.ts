@@ -23,4 +23,9 @@ export default {
   meilisearch_master_key: process.env.MEILISEARCH_MASTER_KEY,
   sender_email: process.env.SENDER_EMAIL,
   sender_app_password: process.env.SENDER_APP_PASS,
+  store_id: process.env.STORE_ID,
+  signature_key: process.env.SIGNATURE_KEY,
+  payment_url: process.env.PAYMENT_URL,
+  payment_verification_url: process.env.PAYMENT_VERIFICATION_URL,
+  base_url: process.env.BASE_URL,
 };

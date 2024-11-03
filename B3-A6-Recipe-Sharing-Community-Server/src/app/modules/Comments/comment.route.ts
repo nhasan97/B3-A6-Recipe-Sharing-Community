@@ -9,11 +9,23 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.USER, USER_ROLE.ADMIN),
   validateRequest(CommentValidation.createCommentValidationSchema),
   CommentControllers.createComment
 );
 
 router.get('/:recipeID', CommentControllers.getRecipeComments);
+
+router.patch(
+  '/update-comment/:commentID',
+  auth(USER_ROLE.USER, USER_ROLE.ADMIN),
+  CommentControllers.updateComment
+);
+
+router.delete(
+  '/delete-comment/:commentID',
+  auth(USER_ROLE.USER, USER_ROLE.ADMIN),
+  CommentControllers.deleteComment
+);
 
 export const CommentRoutes = router;

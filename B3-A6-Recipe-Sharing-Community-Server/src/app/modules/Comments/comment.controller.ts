@@ -26,7 +26,36 @@ const getRecipeComments = catchAsync(async (req, res) => {
   });
 });
 
+const updateComment = catchAsync(async (req, res) => {
+  const comment = await CommentServices.updateCommentIntoDB(
+    req.params.commentID,
+    req.body
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Comment updated successfully',
+    data: comment,
+  });
+});
+
+const deleteComment = catchAsync(async (req, res) => {
+  const { commentID } = req.params;
+
+  await CommentServices.deleteCommentFromDB(commentID);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Comment deleted successfully',
+    data: null,
+  });
+});
+
 export const CommentControllers = {
   createComment,
   getRecipeComments,
+  updateComment,
+  deleteComment,
 };

@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { TComment } from './comment.interface';
+import { ICommentModel, TComment } from './comment.interface';
 
-const commentSchema = new Schema<TComment>(
+const commentSchema = new Schema<TComment, ICommentModel>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -47,4 +47,5 @@ const commentSchema = new Schema<TComment>(
 commentSchema.statics.doesCommentExist = async function (id: string) {
   return await Comment.findById(id);
 };
-export const Comment = model<TComment>('Comment', commentSchema);
+
+export const Comment = model<TComment, ICommentModel>('Comment', commentSchema);
