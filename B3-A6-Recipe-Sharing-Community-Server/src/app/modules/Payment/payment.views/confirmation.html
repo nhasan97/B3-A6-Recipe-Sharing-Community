@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TasteTribe | Payment Confirmation</title>
+    <link rel="stylesheet" href="./confirmation.css">
+</head>
+
+<body>
+    <div class="confirmation-container">
+        <div>
+            <img src="https://i.ibb.co/mT24JXm/success-2.png" alt="">
+            <h1>{{message}}</h1>
+        </div>
+
+        <div>
+
+            <div>
+                <h3>Customer Details</h3>
+                <p><span>Name:</span> {{customerName}}</p>
+                <p><span>Email:</span> {{customerEmail}}</p>
+                <p><span>Cell:</span> {{customerPhone}}</p>
+            </div>
+
+            <div>
+                <h3>Payment Details</h3>
+                <p><span>Total Bill:</span> {{bill}}</p>
+                <p><span>Transaction ID:</span> {{txnId}}</p>
+                <p><span>Payment Status:</span> {{paymentStatus}}</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
