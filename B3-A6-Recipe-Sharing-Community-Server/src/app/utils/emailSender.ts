@@ -13,7 +13,7 @@ const sendEmail = async (email: string, html: string, subject: string) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
+    secure: config.NODE_ENV === 'production',
     auth: {
       user: config.sender_email,
       pass: config.sender_app_password,
@@ -24,7 +24,7 @@ const sendEmail = async (email: string, html: string, subject: string) => {
   });
 
   await transporter.sendMail({
-    from: '"FoundX" <fahimfiroz.ph@gmail.com>', // sender address
+    from: config.sender_email, // sender address
     to: email, // list of receivers
     subject, // Subject line.
     //text: "Hello world?", // plain text body
