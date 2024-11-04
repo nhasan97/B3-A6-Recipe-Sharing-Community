@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   icons: {
-    icon: "/favicon.ico",
+    icon: "/assets/icons/home-kitchen-logo-removebg-preview.png",
   },
 };
 

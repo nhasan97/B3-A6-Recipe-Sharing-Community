@@ -1,0 +1,44 @@
+[
+  {
+    "milestoneName": "2018 - The Idea is Born",
+    "milestoneDescription": "A team of food lovers and tech enthusiasts envision a platform for sharing home-cooked recipes worldwide.",
+    "milestoneCardIcon": "fa-solid fa-lightbulb",
+    "lineImage": "/assets/images/line1.png"
+  },
+  {
+    "milestoneName": "2019 - Official Launch",
+    "milestoneDescription": "Our website launches, welcoming 10,000+ users to share family recipes and cooking tips.",
+    "milestoneCardIcon": "fa-solid fa-rocket",
+    "lineImage": "/assets/images/line2.png"
+  },
+  {
+    "milestoneName": "2020 - Reviews & Ratings",
+    "milestoneDescription": "We introduce recipe ratings and comments, fostering community interaction and feedback.",
+    "milestoneCardIcon": "fa-solid fa-star",
+    "lineImage": "/assets/images/line1.png"
+  },
+  {
+    "milestoneName": "2021 - Mobile App Release",
+    "milestoneDescription": "Our mobile app debuts on iOS and Android, gaining 50,000+ users within six months.",
+    "milestoneCardIcon": "fa-solid fa-mobile-button",
+    "lineImage": "/assets/images/line2.png"
+  },
+  {
+    "milestoneName": "2022 - Personalized Features",
+    "milestoneDescription": "New features include a custom recipe feed, 'like' options, and personal cookbooks.",
+    "milestoneCardIcon": "fa-solid fa-person",
+    "lineImage": "/assets/images/line1.png"
+  },
+  {
+    "milestoneName": "2023 - Video Recipes & Chef Partnerships",
+    "milestoneDescription": "We add video recipes and partner with renowned chefs, expanding our audience.",
+    "milestoneCardIcon": "fa-solid fa-video",
+    "lineImage": "/assets/images/line2.png"
+  },
+  {
+    "milestoneName": "2024 - 1 Million Recipes Shared!",
+    "milestoneDescription": "We celebrate a major milestone: over 1 million unique recipes shared by our global community.",
+    "milestoneCardIcon": "fa-solid fa-cake-candles",
+    "lineImage": ""
+  }
+]

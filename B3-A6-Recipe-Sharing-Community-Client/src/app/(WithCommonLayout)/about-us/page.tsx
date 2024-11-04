@@ -1,205 +1,152 @@
 import Container from "@/src/components/layouts/Container";
 import members from "../../../../public/data/team.json";
+import values from "../../../../public/data/values.json";
+import milestones from "../../../../public/data/milestones.json";
 import React from "react";
 import { TTeamMember } from "@/src/types/team.type";
 import TeamCard from "@/src/components/modules/about-us/TeamCard";
+import "react-vertical-timeline-component/style.min.css";
+import { Image } from "@nextui-org/image";
+import ValuesCard from "@/src/components/modules/about-us/ValuesCard";
+import MilestoneCard from "@/src/components/UI/MilestoneCard";
+import PageTitle from "@/src/components/shared/PageTitle";
 
 const AboutUsPage = async () => {
+  const title = {
+    mainTitle: "About Us",
+    subTitle: "Who we are",
+  };
+
   return (
-    <Container>
-      {/* <Helmet>
-    <title>Sport Odyssey | Contact Us</title>
-  </Helmet> */}
+    <div className="">
+      <Container>
+        <div className="w-full min-h-screen">
+          <PageTitle title={title} />
 
-      <div className="w-full min-h-screen flex flex-col gap-16">
-        {/* <Title title={title}></Title> */}
+          <div className="flex flex-col gap-16">
+            {/* //// Our purpose //// */}
+            <div className="w-full flex flex-col md:flex-row items-center lg:bg-[url('/assets/images/about-purpose-bg.png')] bg-cover bg-center bg-no-repeat">
+              <div className="w-full md:w-1/2">
+                <Image
+                  src={"/assets/images/undraw_Target_re_fi8j.png"}
+                  alt=""
+                  className="mx-auto"
+                />
+              </div>
+              <div className="w-full md:w-1/2 h-full">
+                <h1 className="text-lg md:text-2xl text-center font-semibold mb-6">
+                  Our purpose
+                </h1>
+                <p className="text-sm md:text-base text-justify  text-[#696969]">
+                  At TasteTribe, our mission is to bring people together through
+                  the joy of cooking and sharing recipes from around the world.
+                  Whether you&apos;re a seasoned chef, a home cook, or just
+                  starting your culinary journey, our platform is designed to
+                  inspire, connect, and empower you to create and share your
+                  favorite dishes with a community that shares your passion for
+                  food. We believe that food is more than just sustenance –
+                  it&apos;s a universal language that brings cultures, families,
+                  and friends together.
+                </p>
+              </div>
+            </div>
 
-        <div className="w-full md:px-20">
-          <h1 className="text-[#757575] text-lg md:text-2xl text-center font-semibold mb-6">
-            Our purpose
-          </h1>
-          <p className="text-sm md:text-base text-center text-[#696969]">
-            At TasteTribe, our mission is to bring people together through the
-            joy of cooking and sharing recipes from around the world. Whether
-            you&apos;re a seasoned chef, a home cook, or just starting your
-            culinary journey, our platform is designed to inspire, connect, and
-            empower you to create and share your favorite dishes with a
-            community that shares your passion for food. We believe that food is
-            more than just sustenance – it&apos;s a universal language that
-            brings cultures, families, and friends together.
-          </p>
-        </div>
+            {/* //// Our Values //// */}
+            <div className="w-full">
+              <h1 className="text-lg md:text-2xl font-semibold mb-6 text-center">
+                Values
+              </h1>
 
-        <div className="w-full">
-          <h1 className="text-[#757575] text-lg md:text-2xl font-semibold mb-6">
-            Values
-          </h1>
-          <ul className="space-y-6">
-            <li>
-              <span className="font-bold">Community:</span> A welcoming space
-              for cooks of all levels to share and learn together.
-            </li>
-            <li>
-              <span className="font-bold">Diversity:</span> Celebrating global
-              cuisines and unique culinary traditions.
-            </li>
-            <li>
-              <span className="font-bold">Creativity:</span> Encouraging
-              personal expression through food and innovative recipes.
-            </li>
-            <li>
-              <span className="font-bold">Sustainability:</span> Promoting
-              eco-friendly, healthy, and mindful cooking practices.
-            </li>
-            <li>
-              <span className="font-bold">Respect:</span> Fostering a positive,
-              supportive environment for all members.
-            </li>
-          </ul>
-        </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                {values.map((value) => (
+                  <ValuesCard key={value.valueName} value={value} />
+                ))}
+              </div>
+            </div>
 
-        <div className="w-full">
-          <h1 className="text-[#757575] text-lg md:text-2xl text-center font-semibold mb-6">
-            Our Team
-          </h1>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            {members.map((member: TTeamMember) => (
-              <TeamCard key={member.id} member={member} />
-            ))}
+            {/* //// Our team //// */}
+            <div className="w-full xl:w-3/4 mx-auto">
+              <h1 className="text-lg md:text-2xl text-center font-semibold mb-6">
+                Our Team
+              </h1>
+              <div className="flex flex-col md:flex-row justify-between items-center gap-12 md:gap-6">
+                {members.map((member: TTeamMember) => (
+                  <TeamCard key={member.id} member={member} />
+                ))}
+              </div>
+            </div>
+
+            {/* //// Our history and milestone //// */}
+            <div className="w-full xl:w-3/4 mx-auto md:bg-[url('/assets/images/about-history-bg.png')] bg-cover bg-center bg-no-repeat">
+              <h1 className="text-lg md:text-2xl text-center font-semibold my-12">
+                History & Milestones
+              </h1>
+              <div className="w-full  mx-auto">
+                {milestones.map((milestone, index) => (
+                  <MilestoneCard
+                    key={milestone.milestoneName}
+                    milestone={milestone}
+                    flexclass={index % 2 === 1 ? "flex-row-reverse" : ""}
+                    imageJustifyclass={
+                      index % 2 === 1 ? "justify-start" : "justify-end"
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* //// Contact Info //// */}
+            <div className="w-full flex flex-col justify-center items-center p-5 sm:p-10 lg:p-20 bg-gradient-to-r from-[#121213] via-[#19191a] to-[#121213] rounded-t-lg">
+              <h1 className="text-center text-lg md:text-2xl text-white font-semibold mb-6">
+                Contact Info
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-5">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="size-12 bg-red-700 flex justify-center items-center text-white text-2xl rounded-lg">
+                    <i className="fa-solid fa-envelope" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-[#8a8a8a] font-medium">Email</h3>
+                    <p className="text-sm md:text-base text-[#696969]">
+                      Sample@gmail.com
+                    </p>
+                  </div>
+                </div>
+                {/* ---------------------------------------------------------------------------- */}
+
+                <div className="flex flex-col items-center gap-3">
+                  <div className="size-12 bg-red-700 flex justify-center items-center text-white text-2xl rounded-lg">
+                    <i className="fa-solid fa-phone" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-[#303030] font-medium">Cell</h3>
+                    <p className="text-sm md:text-base text-[#696969]">
+                      +8943465445
+                    </p>
+                  </div>
+                </div>
+                {/* ---------------------------------------------------------------------------- */}
+
+                <div className="flex flex-col items-center gap-3">
+                  <div className="size-12 bg-red-700 flex justify-center items-center text-white text-2xl rounded-lg">
+                    <i className="fa-solid fa-location-dot" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-[#303030] font-medium">
+                      Office Location
+                    </h3>
+                    <p className="text-sm md:text-base text-[#696969] text-wrap">
+                      house# 29, sarwardi avenue, baridhara diplomatic enclave,
+                      1212, Dhaka, Bangladesh
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="w-full">
-        <h1 className="text-[#757575] text-lg md:text-2xl font-semibold mb-6">
-          History & Milestones
-        </h1>
-        {/* <div className="mt-16">
-        <VerticalTimeline>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--work"
-            contentStyle={{ background: "#181818", color: "#757575" }}
-            contentArrowStyle={{
-              borderRight: "7px solid  #b91c1c",
-            }}
-            date="2020"
-            iconStyle={{ background: "#b91c1c", color: "#fff" }}
-          >
-            <h3 className="vertical-timeline-element-title font-bold text-[#aaaaaa]">
-              The Beginning
-            </h3>
-
-            <p>
-              The idea for Sport Odyssey was born out of frustration with
-              the complicated process of booking sports facilities. Our
-              founders, passionate athletes themselves, set out to create
-              a solution that would make facility reservations effortless
-              and accessible.
-            </p>
-          </VerticalTimelineElement>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--work"
-            contentStyle={{ background: "#181818", color: "#757575" }}
-            contentArrowStyle={{
-              borderRight: "7px solid  #b91c1c",
-            }}
-            date="2021"
-            iconStyle={{ background: "#b91c1c", color: "#fff" }}
-          >
-            <h3 className="vertical-timeline-element-title font-bold text-[#aaaaaa]">
-              Platform Launch
-            </h3>
-
-            <p>
-              After a year of development and testing, we launched our
-              platform with a focus on user-friendly design and seamless
-              booking. Initial feedback was overwhelmingly positive,
-              confirming the need for a service like ours.
-            </p>
-          </VerticalTimelineElement>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--work"
-            contentStyle={{ background: "#181818", color: "#757575" }}
-            contentArrowStyle={{
-              borderRight: "7px solid  #b91c1c",
-            }}
-            date="2022"
-            iconStyle={{ background: "#b91c1c", color: "#fff" }}
-          >
-            <h3 className="vertical-timeline-element-title font-bold text-[#aaaaaa]">
-              Expansion and Partnerships
-            </h3>
-
-            <p>
-              We expanded our network by partnering with major sports
-              facilities across the region, offering more options to our
-              users. Our platform introduced new features like instant
-              booking confirmations and a loyalty program, enhancing the
-              user experience.
-            </p>
-          </VerticalTimelineElement>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--work"
-            contentStyle={{ background: "#181818", color: "#757575" }}
-            contentArrowStyle={{
-              borderRight: "7px solid  #b91c1c",
-            }}
-            date="2023"
-            iconStyle={{ background: "#b91c1c", color: "#fff" }}
-          >
-            <h3 className="vertical-timeline-element-title font-bold text-[#aaaaaa]">
-              Going National
-            </h3>
-
-            <p>
-              With increasing demand, we scaled our operations nationwide,
-              bringing our service to more cities and communities. We also
-              launched a mobile app, making it even easier for users to
-              book on the go.
-            </p>
-          </VerticalTimelineElement>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--education"
-            contentStyle={{ background: "#181818", color: "#757575" }}
-            contentArrowStyle={{
-              borderRight: "7px solid  #b91c1c",
-            }}
-            date="2024"
-            iconStyle={{ background: "#b91c1c", color: "#fff" }}
-          >
-            <h3 className="vertical-timeline-element-title font-bold text-[#aaaaaa]">
-              Innovation and Growth
-            </h3>
-
-            <p>
-              Continuing our mission to improve the booking experience, we
-              introduced AI-powered recommendations and dynamic pricing
-              models. Our user base surpassed 1 million, marking a
-              significant milestone in our journey.
-            </p>
-          </VerticalTimelineElement>
-        </VerticalTimeline>
-      </div> */}
-      </div>
-
-      <div className="w-full py-10 md:py-20">
-        <h1 className="text-[#757575] text-lg md:text-2xl font-semibold mb-6">
-          Contact Info
-        </h1>
-        <p className="text-sm md:text-base text-[#696969]">
-          <span className="text-[#a5a5a5] font-medium">Email: </span>
-          Sample@gmail.com
-        </p>
-        <p className="text-sm md:text-base text-[#696969]">
-          <span className="text-[#a5a5a5] font-medium">Cell: </span>
-          +8943465445
-        </p>
-        <p className="text-sm md:text-base text-[#696969]">
-          <span className="text-[#a5a5a5] font-medium">Office Location: </span>
-          house# 29, sarwardi avenue, baridhara diplomatic enclave, 1212, Dhaka,
-          Bangladesh
-        </p>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 
