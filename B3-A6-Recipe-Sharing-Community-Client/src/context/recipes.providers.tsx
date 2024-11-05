@@ -5,9 +5,13 @@ import { IRecipeContext } from "../types/recipe.type";
 import React from "react";
 import { TChildren } from "../types/children.type";
 import { useUser } from "./user.provider";
-import { useGetRecipeCount, useGetRecipes } from "../hooks/recipe.hook";
+import {
+  useGetRecipeCount,
+  useGetRecipes,
+  useGetUsersRecipes,
+} from "../hooks/recipe.hook";
 
-const RecipeContex = createContext<IRecipeContext | undefined>(undefined);
+const RecipeContext = createContext<IRecipeContext | undefined>(undefined);
 
 const RecipeProvider = ({ children }: TChildren) => {
   const { isLoading: loadingUser, user: loggedInUser } = useUser();
@@ -24,7 +28,11 @@ const RecipeProvider = ({ children }: TChildren) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   //retrieving all recipes
-  const { isLoading: loadingRecipes, data: loadedRecipeData } = useGetRecipes(
+  const {
+    isLoading: loadingRecipes,
+    data: loadedRecipeData,
+    refetch: refetchAllRecipes,
+  } = useGetRecipes(
     loggedInUser?.email,
     searchTerm,
     category,
@@ -34,11 +42,29 @@ const RecipeProvider = ({ children }: TChildren) => {
     itemsPerPage
   );
 
-  const reset = () => {
+  //retrieving user specific recipes
+  const { isLoading: loadingUsersRecipes, data: loadedUsersRecipeData } =
+    useGetUsersRecipes(
+      loggedInUser?._id as string,
+      loggedInUser?.email,
+      searchTerm,
+      category,
+      contentType,
+      sort,
+      currentPage,
+      itemsPerPage
+    );
+
+  const resetBrowser = () => {
     setSearchTerm("");
     setCategory("");
     setContentType("");
     setSort("");
+  };
+
+  const resetPagination = () => {
+    setItemsPerPage(5);
+    setCurrentPage(0);
   };
 
   const recipeInfo: IRecipeContext = {
@@ -60,16 +86,22 @@ const RecipeProvider = ({ children }: TChildren) => {
     setCurrentPage,
     loadingRecipes,
     recipeData: loadedRecipeData?.data,
-    reset,
+    refetchAllRecipes,
+    loadingUsersRecipes,
+    usersRecipeData: loadedUsersRecipeData?.data,
+    resetBrowser,
+    resetPagination,
   };
 
   return (
-    <RecipeContex.Provider value={recipeInfo}>{children}</RecipeContex.Provider>
+    <RecipeContext.Provider value={recipeInfo}>
+      {children}
+    </RecipeContext.Provider>
   );
 };
 
 export const useRecipeProvider = () => {
-  const context = useContext(RecipeContex);
+  const context = useContext(RecipeContext);
 
   if (context === undefined) {
     throw new Error("context invalid");

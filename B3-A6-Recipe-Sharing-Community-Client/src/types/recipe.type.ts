@@ -1,3 +1,4 @@
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { IDate } from "./date.type";
 import { IUser } from "./user.type";
 
@@ -20,8 +21,8 @@ export interface IRecipe {
   images: string[];
   contentType: keyof typeof CONTENT_TYPE;
   rating: number;
-  upVote: IUser[];
-  downVote: IUser[];
+  upVote: string[];
+  downVote: string[];
   tags?: string[];
   status: keyof typeof RECIPE_STATUS;
   user: IUser;
@@ -48,5 +49,11 @@ export interface IRecipeContext {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   loadingRecipes: boolean;
   recipeData: IRecipe[];
-  reset: () => void;
+  refetchAllRecipes: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+  loadingUsersRecipes: boolean;
+  usersRecipeData: IRecipe[];
+  resetBrowser: () => void;
+  resetPagination: () => void;
 }
