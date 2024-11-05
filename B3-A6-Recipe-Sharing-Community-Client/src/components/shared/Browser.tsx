@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  categoryOptions,
+  contentTypeOptions,
+  sortOptions,
+} from "@/src/constants/recipe.constants";
 import { useRecipeProvider } from "@/src/context/recipes.providers";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
@@ -9,6 +14,7 @@ import { BiReset } from "react-icons/bi";
 
 const Browser = ({
   searchBox = true,
+  searchBoxText = "Search by title, ingredients, cooking time and tags",
   categoryFilter = true,
   contentTypeFilter = true,
   sortBox = true,
@@ -20,56 +26,10 @@ const Browser = ({
     contentType,
     setContentType,
     setSort,
-    reset,
+    resetBrowser,
   } = useRecipeProvider();
 
   const [openSearchFilterBox, setOpenSearchFilterBox] = useState(false);
-
-  // -----------------------------------------------------------------------------------
-  const contentTypeOptions = [
-    { key: "Open", label: "Open" },
-    { key: "Exclusive", label: "Exclusive" },
-  ];
-
-  // -----------------------------------------------------------------------------------
-  const categoryOptions = [
-    { key: "Cakes", label: "Cakes" },
-    { key: "Fast Food", label: "Fast Food" },
-    { key: "Drinks", label: "Drinks" },
-    { key: "Seafood", label: "Seafood" },
-    { key: "Salads", label: "Salads" },
-    { key: "Desserts", label: "Desserts" },
-    { key: "Beverages", label: "Beverages" },
-    { key: "Grilled", label: "Grilled" },
-    { key: "Vegan", label: "Vegan" },
-    { key: "Ice Cream", label: "Ice Cream" },
-    { key: "Bakery", label: "Bakery" },
-    { key: "Pasta", label: "Pasta" },
-    { key: "BBQ", label: "BBQ" },
-    { key: "Snacks", label: "Snacks" },
-    { key: "Smoothies", label: "Smoothies" },
-    { key: "Dairy", label: "Dairy" },
-    { key: "Frozen Foods", label: "Frozen Foods" },
-    { key: "Soups", label: "Soups" },
-    { key: "Fruits", label: "Fruits" },
-    { key: "Sushi", label: "Sushi" },
-  ];
-
-  // -----------------------------------------------------------------------------------
-  const sortOptions = [
-    { key: "title", label: "Name (A to Z)" },
-    { key: "-title", label: "Name (Z to A)" },
-    { key: "rating", label: "Rating (1 to 5)" },
-    { key: "-rating", label: "Rating (5 to 1)" },
-    { key: "-rating", label: "Rating (5 to 1)" },
-    { key: "upVote", label: "Most up votes" },
-    { key: "-upVote", label: "Fewer up votes" },
-    { key: "downVote", label: "Most down votes" },
-    { key: "-downVote", label: "Fewer down votes" },
-  ];
-  //add cookingTime
-
-  // -----------------------------------------------------------------------------------
 
   return (
     <div>
@@ -79,7 +39,7 @@ const Browser = ({
 
         <Input
           type="text"
-          placeholder="Search by title, ingredients, cooking time and tags"
+          placeholder={searchBoxText}
           value={searchTerm}
           className={`${searchBox ? "" : "hidden"}`}
           onChange={(e) => {
@@ -128,8 +88,9 @@ const Browser = ({
         {/* reset */}
 
         <Button
-          className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] text-lg rounded-lg border border-red-700 hover:border-transparent"
-          onClick={reset}
+          className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] text-xl rounded-lg border border-red-700 hover:border-transparent"
+          onClick={resetBrowser}
+          isIconOnly
         >
           <BiReset />
         </Button>
@@ -138,18 +99,23 @@ const Browser = ({
       {/* mobile view */}
 
       <Button
-        className="md:hidden"
+        isIconOnly
+        className="md:hidden mt-[40px] bg-red-700 text-[rgba(255,255,255,0.88)]"
         onClick={() => setOpenSearchFilterBox(!openSearchFilterBox)}
       >
-        Search
+        {openSearchFilterBox ? (
+          <i className="fa-solid fa-xmark" />
+        ) : (
+          <i className="fa-solid fa-filter" />
+        )}
       </Button>
 
       <div
         className={`${
           openSearchFilterBox
-            ? "md:hidden bg-default-100 flex flex-col gap-2 absolute z-10"
+            ? "md:hidden bg-black/10 backdrop-blur-md flex flex-col gap-2 p-2 rounded-lg mt-2 absolute z-10"
             : "hidden"
-        } border`}
+        }`}
       >
         <Input
           type="text"
@@ -198,8 +164,8 @@ const Browser = ({
         </Select>
 
         <Button
-          className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] text-lg rounded-lg border border-red-700 hover:border-transparent"
-          onClick={reset}
+          className="bg-red-700 text-[rgba(255,255,255,0.88)] text-lg rounded-lg"
+          onClick={resetBrowser}
         >
           <BiReset />
         </Button>

@@ -1,5 +1,6 @@
 "use client";
 
+import "../../styles/pagination.css";
 import React from "react";
 import { useRecipeProvider } from "@/src/context/recipes.providers";
 import { Button } from "@nextui-org/button";
@@ -49,34 +50,38 @@ const Pagination = () => {
   };
 
   return (
-    <div className="flex justify-center items-center flex-wrap sm:flex-nowrap md:pl-2 border">
+    <div className="xl:bg-black/10 backdrop-blur-md w-full xl:w-1/2 mx-auto flex justify-center items-center flex-col sm:flex-row gap-2 p-1 rounded-full">
       {/* page */}
-
-      <Button
-        className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] rounded-lg border-none"
-        onClick={handlePrevPage}
-      >
-        <GrPrevious />
-      </Button>
-      {pages?.map((page) => (
+      <div>
         <Button
-          key={page}
-          className={`bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] border-none  ${
-            currentPage === page ? "selectedPage" : ""
-          }`}
-          onClick={() => {
-            setCurrentPage(page);
-          }}
+          isIconOnly
+          className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] mx-1 rounded-lg border-none"
+          onClick={handlePrevPage}
         >
-          {page}
+          <GrPrevious />
         </Button>
-      ))}
-      <Button
-        className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] rounded-lg border-none"
-        onClick={handleNextPage}
-      >
-        <GrNext />
-      </Button>
+        {pages?.map((page) => (
+          <Button
+            key={page}
+            isIconOnly
+            className={`bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] mx-1 border-none  ${
+              currentPage === page ? "selectedPage" : ""
+            }`}
+            onClick={() => {
+              setCurrentPage(page);
+            }}
+          >
+            {page}
+          </Button>
+        ))}
+        <Button
+          isIconOnly
+          className="bg-transparent hover:bg-red-700 text-red-700 hover:text-[rgba(255,255,255,0.88)] mx-1 rounded-lg border-none"
+          onClick={handleNextPage}
+        >
+          <GrNext />
+        </Button>
+      </div>
 
       {/* limit */}
 
@@ -84,7 +89,8 @@ const Pagination = () => {
         // name="category"
         //label="Category"
         placeholder="Items to show"
-        className="max-w-[130px]"
+        className="max-w-[150px] text-red-700"
+        // color="danger"
         onChange={(e) => {
           setItemsPerPage(Number(e.target.value));
           setCurrentPage(0);

@@ -17,7 +17,7 @@ const GoBackButton = () => {
       className="group bg-transparent absolute top-2 left-2 sm:top-5 md:left-10"
       isIconOnly
     >
-      <i className="fa-solid fa-arrow-left text-xl text-[#808080] group-hover:text-[#5D7E5F]" />
+      <i className="fa-solid fa-arrow-left text-xl text-[#808080] group-hover:text-red-700" />
     </Button>
   );
 };
