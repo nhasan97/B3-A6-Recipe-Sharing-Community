@@ -1,23 +1,58 @@
 "use client";
 
+import "../../styles/textPreview.css";
 import { IRecipe } from "@/src/types/recipe.type";
 import { Button } from "@nextui-org/button";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import Link from "next/link";
 import React from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useUser } from "@/src/context/user.provider";
 import { toast } from "sonner";
-import { useChangeRecipeStatus } from "@/src/hooks/recipe.hook";
+import {
+  useChangeRecipeStatus,
+  useDeleteRecipe,
+} from "@/src/hooks/recipe.hook";
+import EditRecipeModal from "../modals/EditRecipeModal";
+import { Spinner } from "@nextui-org/spinner";
+import GetMembershipModal from "../modals/GetMembershipModal";
+import { useRouter } from "next/navigation";
+import { Tooltip } from "@nextui-org/tooltip";
 
-const MembersRecipeCard = ({ recipe }: { recipe: IRecipe }) => {
-  const { _id, title, images, rating, upVote, downVote, status } = recipe || {};
+const MembersRecipeCard = ({
+  recipe,
+  caller,
+}: {
+  recipe: IRecipe;
+  caller?: string;
+}) => {
+  const {
+    _id,
+    title,
+    images,
+    rating,
+    upVote,
+    downVote,
+    status,
+    user,
+    contentType,
+  } = recipe || {};
 
-  const { user: loggedInUser } = useUser();
+  const { isLoading: loadingUser, user: loggedInUser } = useUser();
 
-  const { mutate: handleChangeRecipeStatus } = useChangeRecipeStatus();
+  // -----------------------------------------------------------------------------------
+
+  const router = useRouter();
+  const handleNavigation = (pathName: string) => {
+    router.push(pathName);
+  };
+
+  // -----------------------------------------------------------------------------------
+
+  const {
+    mutate: handleChangeRecipeStatus,
+    isPending: pendingChangeRecipeStatus,
+  } = useChangeRecipeStatus();
 
   const handlePublishUnpublishRecipe = (status: string) => {
     toast.warning("Are you sure to change recipe status?", {
@@ -25,7 +60,7 @@ const MembersRecipeCard = ({ recipe }: { recipe: IRecipe }) => {
         label: "Yes",
         onClick: () => {
           try {
-            const res = handleChangeRecipeStatus({
+            handleChangeRecipeStatus({
               recipeId: _id as string,
               status,
             });
@@ -41,71 +76,192 @@ const MembersRecipeCard = ({ recipe }: { recipe: IRecipe }) => {
     });
   };
 
+  // -----------------------------------------------------------------------------------
+
+  const { mutate: deleteRecipe, isPending: pendingDeleteRecipe } =
+    useDeleteRecipe();
+
+  const handleDeleteRecipe = (_id: string) => {
+    toast.warning(
+      "Are you sure to delete recipe? You won't be able to revert this!!",
+      {
+        action: {
+          label: "Yes, delete recipe.",
+          onClick: () => {
+            try {
+              deleteRecipe({
+                recipeId: _id as string,
+              });
+            } catch (err: any) {
+              toast.error(err.data.message, { duration: 2000 });
+            }
+          },
+        },
+        cancel: {
+          label: "Cancel",
+          onClick: () => toast.info("Cancelled!", { duration: 2000 }),
+        },
+      }
+    );
+  };
+
+  // -----------------------------------------------------------------------------------
   return (
-    <Card className="py-4">
-      <CardHeader className="pb-0 pt-2 px-4 flex justify-between items-start">
-        <div className="space-y-3">
-          <h4 className="font-bold text-large">{title}</h4>
+    <div className="bg-white w-full h-fit p-1 space-y-3 shadow-lg rounded-xl relative">
+      {loadingUser ? (
+        <Spinner size="lg" color="danger" />
+      ) : (
+        <div>
+          <div className="flex flex-col justify-between items-start gap-3 mb-3">
+            {/* //// Card heading //// */}
+            <div className="w-full h-[40px] flex justify-between items-center">
+              <Tooltip content={title}>
+                <h4 className="text-preview text-gray-700 font-bold text-lg">
+                  {title}
+                </h4>
+              </Tooltip>
+              {contentType === "Exclusive" ? (
+                <Image
+                  removeWrapper
+                  src={"/assets/icons/exclusive.png"}
+                  alt=""
+                  radius="none"
+                  className="size-8 ml-1"
+                />
+              ) : (
+                // <div className="bg-red-500 p-1 text-sm text-white rounded-full ">
+                //   {contentType}
+                // </div>
+                ""
+              )}
+            </div>
 
-          <Rating style={{ maxWidth: 100 }} value={rating} readOnly />
+            {/* //// Card retaing //// */}
+            <Rating style={{ maxWidth: 100 }} value={rating} readOnly />
 
-          <small className="text-default-500 flex items-center gap-3">
-            <p>
-              <i className="fa-solid fa-arrow-up" />
-              <span>{upVote?.length}</span>
-            </p>
-            <p>
-              <i className="fa-solid fa-arrow-down" />
-              <span>{downVote?.length}</span>
-            </p>
-          </small>
+            {/* //// up down votes //// */}
+            <small className="text-default-500 flex items-center gap-6">
+              <p className="space-x-1">
+                <i className="fa-solid fa-arrow-up" />
+                <span>{upVote?.length}</span>
+              </p>
+              <p className="space-x-1">
+                <i className="fa-solid fa-arrow-down" />
+                <span>{downVote?.length}</span>
+              </p>
+            </small>
+          </div>
+
+          {/* //// Card image //// */}
+          <div className="w-full  rounded-xl overflow-hidden">
+            <Image
+              isZoomed
+              removeWrapper
+              alt="Card background"
+              className="w-full h-[180px] 2xl:h-[250px] object-cover object-center rounded-xl"
+              src={images[0]}
+            />
+          </div>
+
+          {/* //// Card buttons //// */}
+          <div className="before:bg-white/10 border-1 border-white/20 backdrop-blur-sm overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
+            {caller === "dashboard" &&
+            loggedInUser?.email &&
+            loggedInUser?.role === "ADMIN" ? (
+              <div className="flex justify-between items-center gap-3">
+                <Button
+                  className="w-full text-tiny text-white bg-black/20"
+                  variant="flat"
+                  radius="full"
+                  size="sm"
+                  onClick={() => handleNavigation(`/recipe-details/${_id}`)}
+                >
+                  <i className="fa-solid fa-info" />
+                </Button>
+
+                {status === "PUBLISHED" ? (
+                  <Button
+                    className="w-full text-tiny text-white bg-black/20"
+                    variant="flat"
+                    color="default"
+                    radius="lg"
+                    size="sm"
+                    onClick={() => handlePublishUnpublishRecipe("UNPUBLISHED")}
+                  >
+                    {pendingChangeRecipeStatus
+                      ? "Unpublishing..."
+                      : "Unpublish"}
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full text-tiny text-white bg-black/20"
+                    variant="flat"
+                    color="default"
+                    radius="lg"
+                    size="sm"
+                    onClick={() => handlePublishUnpublishRecipe("PUBLISHED")}
+                  >
+                    {pendingChangeRecipeStatus ? "Publishing..." : "Publish"}
+                  </Button>
+                )}
+              </div>
+            ) : caller === "dashboard" &&
+              loggedInUser?.email &&
+              loggedInUser?.role === "USER" &&
+              loggedInUser?._id === user?._id ? (
+              <div className="flex justify-between items-center gap-3">
+                <Button
+                  className="flex-1 text-tiny text-white bg-black/20"
+                  variant="flat"
+                  radius="full"
+                  size="sm"
+                  onClick={() => handleNavigation(`/recipe-details/${_id}`)}
+                >
+                  <i className="fa-solid fa-info" />
+                </Button>
+                <EditRecipeModal recipe={recipe} />
+                <Button
+                  className="flex-1 text-tiny text-white bg-black/20"
+                  size="sm"
+                  radius="full"
+                  // isIconOnly
+                  onClick={() => handleDeleteRecipe(_id as string)}
+                >
+                  {pendingDeleteRecipe ? (
+                    <Spinner color="white" size="sm" />
+                  ) : (
+                    <i className="fa-solid fa-trash" />
+                  )}
+                </Button>
+              </div>
+            ) : caller !== "dashboard" &&
+              contentType === "Exclusive" &&
+              ((loggedInUser?.role === "USER" &&
+                loggedInUser?.userType === "NORMAL" &&
+                loggedInUser?._id !== user?._id) ||
+                !loggedInUser?.email) ? (
+              <GetMembershipModal
+                buttonText={<i className="fa-solid fa-lock" />}
+                buttonClassName="w-full text-tiny text-white bg-black/20"
+                buttonVariant="flat"
+                buttonSize="sm"
+                radius="full"
+              />
+            ) : (
+              <Button
+                className="w-full text-tiny text-white bg-black/20"
+                variant="flat"
+                radius="full"
+                size="sm"
+                onClick={() => handleNavigation(`/recipe-details/${_id}`)}
+              >
+                <i className="fa-solid fa-info" /> View Details
+              </Button>
+            )}
+          </div>
         </div>
-      </CardHeader>
-      <CardBody className="overflow-visible py-2">
-        <Image
-          alt="Card background"
-          className="w-full h-[180px] object-cover object-center rounded-xl"
-          src={images[0]}
-        />
-      </CardBody>
-      <CardFooter className="justify-between gap-3 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] ml-1 shadow-small z-10">
-        <Link href={`/recipe-details/${_id}`}>
-          <Button
-            className="flex-1 text-tiny text-white bg-black/20"
-            variant="flat"
-            color="default"
-            radius="lg"
-            size="sm"
-          >
-            Details
-          </Button>
-        </Link>
-        {loggedInUser?.role === "ADMIN" && status === "PUBLISHED" && (
-          <Button
-            className="flex-1 text-tiny text-white bg-black/20"
-            variant="flat"
-            color="default"
-            radius="lg"
-            size="sm"
-            onClick={() => handlePublishUnpublishRecipe("UNPUBLISHED")}
-          >
-            Unpublish
-          </Button>
-        )}
-        {loggedInUser?.role === "ADMIN" && status === "UNPUBLISHED" && (
-          <Button
-            className="flex-1 text-tiny text-white bg-black/20"
-            variant="flat"
-            color="default"
-            radius="lg"
-            size="sm"
-            onClick={() => handlePublishUnpublishRecipe("PUBLISHED")}
-          >
-            Publish
-          </Button>
-        )}
-      </CardFooter>
-    </Card>
+      )}
+    </div>
   );
 };
 
