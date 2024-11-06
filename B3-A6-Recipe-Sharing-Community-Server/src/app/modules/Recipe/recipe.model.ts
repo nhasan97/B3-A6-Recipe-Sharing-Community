@@ -1,10 +1,10 @@
 import { Schema, model } from 'mongoose';
-import { TRecipe } from './recipe.interface';
+import { RecipeModel, TRecipe } from './recipe.interface';
 import { CONTENT_TYPE, RECIPE_STATUS } from './recipe.constant';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
-const recipeSchema = new Schema<TRecipe>(
+const recipeSchema = new Schema<TRecipe, RecipeModel>(
   {
     title: {
       type: String,
@@ -27,6 +27,10 @@ const recipeSchema = new Schema<TRecipe>(
       type: [String],
       default: [],
     },
+    category: {
+      type: String,
+      required: true,
+    },
     contentType: {
       type: String,
       enum: Object.keys(CONTENT_TYPE),
@@ -38,11 +42,13 @@ const recipeSchema = new Schema<TRecipe>(
       default: 0,
     },
     upVote: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
       default: [],
     },
     downVote: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
       default: [],
     },
     tags: {
@@ -77,6 +83,7 @@ recipeSchema.pre('save', async function (next) {
     title: this.title,
     instruction: this.instruction,
     images: this.images,
+    category: this.category,
     ingredients: this.ingredients,
     tags: this.tags,
     status: this.status,
@@ -108,4 +115,4 @@ recipeSchema.statics.doesRecipeExist = async function (id: string) {
   return await Recipe.findById(id);
 };
 
-export const Recipe = model<TRecipe>('Recipe', recipeSchema);
+export const Recipe = model<TRecipe, RecipeModel>('Recipe', recipeSchema);

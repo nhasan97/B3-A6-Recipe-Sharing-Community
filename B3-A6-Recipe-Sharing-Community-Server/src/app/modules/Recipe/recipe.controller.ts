@@ -24,7 +24,10 @@ const createRecipe = catchAsync(async (req, res) => {
 });
 
 const getAllRecipes = catchAsync(async (req, res) => {
-  const recipe = await RecipeServices.getAllRecipesFromDB(req.query);
+  const recipe = await RecipeServices.getAllRecipesFromDB(
+    req.query,
+    req.params.email
+  );
 
   sendResponse(res, {
     success: true,
@@ -61,12 +64,27 @@ const getSingleRecipe = catchAsync(async (req, res) => {
 });
 
 const getRecipeCount = catchAsync(async (req, res) => {
-  const response = await RecipeServices.getRecipeCountFromDB();
+  const response = await RecipeServices.getRecipeCountFromDB(
+    req?.query?.loggedInUserEmail as string | undefined
+  );
 
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Recipe fetched successfully',
+    data: response,
+  });
+});
+
+const getUsersRecipeCount = catchAsync(async (req, res) => {
+  const response = await RecipeServices.getUsersRecipeCountFromDB(
+    req?.params?.userId as string
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Fetched successfully',
     data: response,
   });
 });
@@ -85,11 +103,77 @@ const updateRecipeStatus = catchAsync(async (req, res) => {
   });
 });
 
+const updateRecipe = catchAsync(async (req, res) => {
+  // if (!req.files) {
+  //   throw new AppError(400, 'Please upload an image');
+  // }
+
+  const recipe = await RecipeServices.updateRecipeIntoDB(
+    req.params.id,
+    req.body,
+    req.files as TImageFiles
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Recipe updated successfully',
+    data: recipe,
+  });
+});
+
+const deleteRecipe = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  await RecipeServices.deleteRecipeFromDB(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Recipe deleted successfully',
+    data: null,
+  });
+});
+
+const likeUnlikeRecipe = catchAsync(async (req, res) => {
+  const recipe = await RecipeServices.likeUnlikeRecipeIntoDB(
+    req?.params?.id,
+    req?.query?.loggedInUserId as string,
+    req?.query?.likeStatus as string
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'done Successfully',
+    data: recipe,
+  });
+});
+
+const dislikeUndislikeRecipe = catchAsync(async (req, res) => {
+  const recipe = await RecipeServices.dislikeUndislikeRecipeIntoDB(
+    req?.params?.id,
+    req?.query?.loggedInUserId as string,
+    req?.query?.dislikeStatus as string
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'done Successfully',
+    data: recipe,
+  });
+});
+
 export const RecipeControllers = {
   createRecipe,
   getAllRecipes,
   getRecipesByUser,
   getSingleRecipe,
   getRecipeCount,
+  getUsersRecipeCount,
   updateRecipeStatus,
+  updateRecipe,
+  deleteRecipe,
+  likeUnlikeRecipe,
+  dislikeUndislikeRecipe,
 };
