@@ -1,26 +1,34 @@
+"use client";
+
 import DashboardContainer from "@/src/components/layouts/DashboardContainer";
 import MobileView from "@/src/components/modules/allUsers/MobileView/MobileView";
 import TabPCView from "@/src/components/modules/allUsers/TabPCView/TabPCView";
-import axiosInstance from "@/src/lib/AxiosInstance";
+import LoadingSection from "@/src/components/shared/LoadingSection";
+import PageTitle from "@/src/components/shared/PageTitle";
+import { useGetAllUsers } from "@/src/hooks/user.hook";
 import React from "react";
 
 const AllUsersPage = async () => {
-  const { data: userData } = await axiosInstance.get("/users");
+  const { isLoading: loadingUserData, data: userData } = useGetAllUsers();
+
+  const title = {
+    mainTitle: "All Users",
+  };
 
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-[url('/assets/images/users-bg-mobile.png')] md:bg-[url('/assets/images/users-bg-tab.png')] xl:bg-[url('/assets/images/users-bg.png')] bg-cover bg-center bg-no-repeat">
       <DashboardContainer>
-        {/* <Helmet>
-          <title>Blooms & Beyond | Dashboard | Products</title>
-        </Helmet> */}
+        <PageTitle title={title} />
 
-        {/* <Title title={"Products"}></Title> */}
+        {loadingUserData ? (
+          <LoadingSection />
+        ) : (
+          <>
+            <TabPCView userData={userData} />
 
-        {/*tab pc view */}
-        <TabPCView userData={userData} />
-
-        {/* mobile view */}
-        <MobileView userData={userData} />
+            <MobileView userData={userData} />
+          </>
+        )}
       </DashboardContainer>
     </div>
   );

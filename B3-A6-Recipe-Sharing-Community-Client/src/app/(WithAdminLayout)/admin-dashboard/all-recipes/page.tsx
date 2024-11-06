@@ -24,7 +24,7 @@ const AllRecipesPage = () => {
   }, []);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-[url('/assets/images/dashboard-recipes-bg-mobileTab.png')] xl:bg-[url('/assets/images/dashboard-recipes-bg-pc.png')] bg-cover bg-center bg-no-repeat">
       <DashboardContainer>
         <div className="w-full relative">
           <Browser />
@@ -41,7 +41,7 @@ const AllRecipesPage = () => {
         </div>
 
         <div className="w-full">
-          <Pagination />
+          <Pagination caller="AllRecipesPage" />
         </div>
       </DashboardContainer>
     </div>

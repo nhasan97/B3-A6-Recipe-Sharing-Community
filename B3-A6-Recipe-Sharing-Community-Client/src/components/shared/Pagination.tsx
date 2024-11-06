@@ -7,10 +7,13 @@ import { Button } from "@nextui-org/button";
 import { Select, SelectItem } from "@nextui-org/select";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
-const Pagination = () => {
+const Pagination = ({ caller }: { caller: string }) => {
   const {
     loadingRecipeCount,
     recipeCount,
+    loadingUsersRecipeCount,
+    usersPublishedRecipeCount,
+    usersUnpublishedRecipeCount,
     currentPage,
     setCurrentPage,
     setItemsPerPage,
@@ -29,10 +32,14 @@ const Pagination = () => {
   // -----------------------------------------------------------------------------------
 
   let numberOfPages = 0;
+  const totalRecipes =
+    caller === "MyRecipesPage"
+      ? usersPublishedRecipeCount + usersUnpublishedRecipeCount
+      : recipeCount;
   let pages: number[] = [];
 
-  if (!loadingRecipeCount) {
-    numberOfPages = Math.ceil(recipeCount / itemsPerPage);
+  if (!(loadingRecipeCount || loadingUsersRecipeCount)) {
+    numberOfPages = Math.ceil(totalRecipes / itemsPerPage);
     for (let i = 0; i < numberOfPages; i++) {
       pages.push(i);
     }
