@@ -96,11 +96,16 @@ export const useGetSingleRecipe = (recipeID: string) => {
 };
 
 export const useShareRecipe = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<any, Error, FormData>({
     mutationKey: ["SHARE_RECIPE"],
     mutationFn: async (recipeData) => await shareRecipe(recipeData),
     onSuccess: () => {
       toast.success("Recipe created successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["GET_RECIPES", "GET_USERS_RECIPES"],
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -139,6 +144,8 @@ export const useChangeRecipeStatus = () => {
 };
 
 export const useUpdateRecipe = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<
     any,
     Error,
@@ -158,6 +165,9 @@ export const useUpdateRecipe = () => {
       }),
     onSuccess: () => {
       toast.success("Recipe updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["GET_RECIPES", "GET_USERS_RECIPES"],
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -177,7 +187,7 @@ export const useDeleteRecipe = () => {
     onSuccess: () => {
       toast.success("Recipe deleted successfully");
       queryClient.invalidateQueries({
-        queryKey: ["GET_USERS_RECIPES"],
+        queryKey: ["GET_RECIPES", "GET_USERS_RECIPES"],
       });
     },
     onError: (error) => {
@@ -265,10 +275,10 @@ export const useGetRecipeCount = (loggedInUserEmail: string | undefined) => {
   });
 };
 
-export const useGetUsersRecipeCount = (loggedInUserId: string) => {
+export const useGetUsersRecipeCount = (userId: string) => {
   return useQuery({
-    queryKey: ["GET_USERS_RECIPE_COUNT", loggedInUserId],
-    queryFn: async () => await getUsersRecipeCount(loggedInUserId),
-    enabled: !!loggedInUserId,
+    queryKey: ["GET_USERS_RECIPE_COUNT", userId],
+    queryFn: async () => await getUsersRecipeCount(userId),
+    enabled: !!userId,
   });
 };

@@ -8,6 +8,7 @@ import { useUser } from "./user.provider";
 import {
   useGetRecipeCount,
   useGetRecipes,
+  useGetUsersRecipeCount,
   useGetUsersRecipes,
 } from "../hooks/recipe.hook";
 
@@ -18,6 +19,9 @@ const RecipeProvider = ({ children }: TChildren) => {
 
   const { isLoading: loadingRecipeCount, data: loadedRecipeCount } =
     useGetRecipeCount(loggedInUser?.email);
+
+  const { isLoading: loadingUsersRecipeCount, data: loadedUsersRecipeCount } =
+    useGetUsersRecipeCount(loggedInUser?._id as string);
 
   //States for browsing
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,6 +76,10 @@ const RecipeProvider = ({ children }: TChildren) => {
     loggedInUser,
     loadingRecipeCount,
     recipeCount: loadedRecipeCount?.data,
+    loadingUsersRecipeCount,
+    usersPublishedRecipeCount: loadedUsersRecipeCount?.data?.publishedRecipes,
+    usersUnpublishedRecipeCount:
+      loadedUsersRecipeCount?.data?.unPublishedRecipes,
     searchTerm,
     setSearchTerm,
     category,

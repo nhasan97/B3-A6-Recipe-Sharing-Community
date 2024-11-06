@@ -35,6 +35,9 @@ export interface IRecipeContext {
   loggedInUser: IUser | null;
   loadingRecipeCount: boolean;
   recipeCount: number;
+  loadingUsersRecipeCount: boolean;
+  usersPublishedRecipeCount: number;
+  usersUnpublishedRecipeCount: number;
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   category: string;

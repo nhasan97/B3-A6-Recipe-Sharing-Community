@@ -69,10 +69,10 @@ export const getRecipeCount = async (loggedInUserEmail: string | undefined) => {
   }
 };
 
-export const getUsersRecipeCount = async (loggedInUserId: string) => {
+export const getUsersRecipeCount = async (userId: string) => {
   try {
     const res = await axiosInstance.get(
-      `/recipes/count/users-recipe/${loggedInUserId}`
+      `/recipes/count/users-recipe/${userId}`
     );
 
     return res.data;
