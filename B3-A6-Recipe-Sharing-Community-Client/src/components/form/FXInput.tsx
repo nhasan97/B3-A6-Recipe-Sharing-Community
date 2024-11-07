@@ -9,6 +9,7 @@ const FXInput = ({
   variant = "bordered",
   size = "md",
   required = false,
+  readOnly = false,
   type = "text",
   label,
   name,
@@ -26,6 +27,7 @@ const FXInput = ({
       variant={variant}
       size={size}
       required={required}
+      readOnly={readOnly}
       type={type}
       label={label}
     />

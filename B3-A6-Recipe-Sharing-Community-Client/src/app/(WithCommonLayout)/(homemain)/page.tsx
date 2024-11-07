@@ -12,6 +12,9 @@ import CategoryList from "@/src/components/modules/home/CategoryList";
 import Head from "next/head";
 import { useRecipeProvider } from "@/src/context/recipes.providers";
 import Browser from "@/src/components/shared/Browser";
+import { IUser } from "@/src/types/user.type";
+import "../../../styles/textPreview.css";
+import Banner from "@/src/components/modules/home/Banner";
 
 const Home = () => {
   const { user, isLoading: loadingUser } = useUser();
@@ -29,7 +32,15 @@ const Home = () => {
     setItemsPerPage,
     loadingRecipes,
     recipeData,
+    refetchAllRecipes,
+    resetBrowser,
+    resetPagination,
   } = useRecipeProvider();
+
+  useEffect(() => {
+    resetBrowser();
+    resetPagination();
+  }, []);
 
   const fetchData = () => {
     if (itemsPerPage <= recipeCount)
@@ -47,53 +58,64 @@ const Home = () => {
         <title>Home | My Recipe Sharing Community</title>
       </Head>
 
-      <div className="w-full h-[calc(100vh-64px)] grid grid-cols-4 gap-6 py-4">
-        <div className="w-full col-span-1 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl">
-          <h1 className="text-2xl mb-3">Active Members</h1>
-          <div className="w-full">
-            {loadingUser || lodingActiveUsers ? (
-              <LoadingSection />
-            ) : (
-              <MembersList userData={userData} />
-            )}
-          </div>
-        </div>
+      <div className="w-full min-h-screen py-4 space-y-6">
+        <Banner />
 
-        <div
-          id="scrollableDiv"
-          className="w-full col-span-2 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl"
-        >
-          <h1 className="text-2xl mb-3">Recipe Feed</h1>
-
-          <div className="w-full">
-            <Browser
-              categoryFilter={false}
-              contentTypeFilter={user?.userType === "PRO" ? true : false}
-              sortBox={false}
-            />
+        <div className="h-[calc(100vh-40px)] grid grid-cols-4 gap-6">
+          <div className="w-full h-full col-span-1 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl">
+            <h1 className="text-2xl mb-3">Active Members</h1>
+            <div className="w-full">
+              {loadingUser || lodingActiveUsers ? (
+                <LoadingSection />
+              ) : (
+                <MembersList userData={userData} loggedInUser={user as IUser} />
+              )}
+            </div>
           </div>
 
-          <div className="w-full">
-            {loadingUser || loadingRecipeCount || loadingRecipes ? (
-              <LoadingSection />
-            ) : (
-              <RecipeFeed
-                recipeData={recipeData}
-                fetchData={fetchData}
-                hasMore={hasMore}
+          <div
+            id="scrollableDiv"
+            className="w-full h-full col-span-2 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl"
+          >
+            <h1 className="text-2xl mb-3">Recipe Feed</h1>
+
+            <div className="w-full">
+              <Browser
+                categoryFilter={user?.userType === "PRO" ? true : false}
+                contentTypeFilter={user?.userType === "PRO" ? true : false}
+                sortBox={false}
               />
-            )}
-          </div>
-        </div>
+            </div>
 
-        <div className="w-full col-span-1 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl">
-          <h1 className="text-2xl mb-3">Popular Categories</h1>
-          <div className="w-full">
-            {loadingUser ? (
-              <LoadingSection />
-            ) : (
-              <CategoryList categoryData={categories} />
-            )}
+            <div className="w-full">
+              {loadingUser || loadingRecipeCount || loadingRecipes ? (
+                <LoadingSection />
+              ) : (
+                <RecipeFeed
+                  recipeData={
+                    user?.role === "ADMIN"
+                      ? recipeData.filter(
+                          (recipe) => recipe?.status === "PUBLISHED"
+                        )
+                      : recipeData
+                  }
+                  fetchData={fetchData}
+                  hasMore={hasMore}
+                  refetchAllRecipes={refetchAllRecipes}
+                />
+              )}
+            </div>
+          </div>
+
+          <div className="w-full h-full col-span-1 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl">
+            <h1 className="text-2xl mb-3">Popular Categories</h1>
+            <div className="w-full">
+              {loadingUser ? (
+                <LoadingSection />
+              ) : (
+                <CategoryList categoryData={categories} />
+              )}
+            </div>
           </div>
         </div>
       </div>

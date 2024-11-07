@@ -46,6 +46,7 @@ export interface IFXInputProps {
   variant?: "flat" | "bordered" | "faded" | "underlined" | undefined;
   size?: "sm" | "md" | "lg" | undefined;
   required?: boolean;
+  readOnly?: boolean;
   type?: string;
   label: string;
   name: string;
