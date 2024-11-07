@@ -7,8 +7,6 @@ import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
-export const UserRoutes = router;
-
 router.post(
   '/create-user',
   auth(USER_ROLE.ADMIN),
@@ -42,3 +40,7 @@ router.patch(
   auth(USER_ROLE.USER, USER_ROLE.ADMIN),
   UserControllers.followUnfollowMember
 );
+
+router.delete('/:id', auth(USER_ROLE.ADMIN), UserControllers.deleteUser);
+
+export const UserRoutes = router;

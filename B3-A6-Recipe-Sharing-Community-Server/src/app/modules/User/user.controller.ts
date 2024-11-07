@@ -112,6 +112,18 @@ const followUnfollowMember = catchAsync(async (req, res) => {
   });
 });
 
+const deleteUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  await UserServices.deleteUserFromDB(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Recipe deleted successfully',
+    data: null,
+  });
+});
+
 export const UserControllers = {
   getSingleUser,
   userRegister,
@@ -122,4 +134,5 @@ export const UserControllers = {
   updateUserType,
   followUnfollowMember,
   getUsersCount,
+  deleteUser,
 };

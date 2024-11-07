@@ -18,7 +18,8 @@ const createUserValidationSchema = z.object({
       required_error: 'Password is required',
     }),
     status: z.nativeEnum(USER_STATUS).default(USER_STATUS.ACTIVE),
-    mobileNumber: z.string().optional(),
+    mobileNumber: z.string(),
+    profilePhoto: z.string(),
   }),
 });
 
@@ -30,6 +31,7 @@ const updateUserValidationSchema = z.object({
     password: z.string().optional(),
     status: z.nativeEnum(USER_STATUS).optional(),
     mobileNumber: z.string().optional(),
+    profilePhoto: z.string().optional(),
   }),
 });
 

@@ -23,7 +23,7 @@ const createUser = async (payload: TUser) => {
 
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const users = new QueryBuilder(
-    User.find({ role: { $ne: USER_ROLE.ADMIN } }),
+    User.find({ role: { $ne: USER_ROLE.ADMIN }, isDeleted: { $ne: true } }),
     query
   )
     .fields()
@@ -48,11 +48,13 @@ const getAllUsersFromDBWithoutBlocked = async (
       role: { $ne: USER_ROLE.ADMIN },
       status: { $ne: USER_STATUS.BLOCKED },
       email: { $ne: email },
+      isDeleted: { $ne: true },
     };
   } else {
     getActiveUsersQuery = {
       role: { $ne: USER_ROLE.ADMIN },
       status: { $ne: USER_STATUS.BLOCKED },
+      isDeleted: { $ne: true },
     };
   }
 
@@ -70,7 +72,7 @@ const getAllUsersFromDBWithoutBlocked = async (
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
   const users = new QueryBuilder(
-    User.find({ role: { $eq: USER_ROLE.ADMIN } }),
+    User.find({ role: { $eq: USER_ROLE.ADMIN }, isDeleted: { $ne: true } }),
     query
   )
     .fields()
@@ -85,7 +87,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleUserFromDB = async (id: string) => {
-  const user = await User.findById(id);
+  const user = await User.findOne({ _id: id, isDeleted: { $ne: true } });
 
   return user;
 };
@@ -305,6 +307,22 @@ const getUserCountFromDB = async () => {
   return response.length > 0 ? response[0] : { users: 0, admins: 0 };
 };
 
+const deleteUserFromDB = async (id: string) => {
+  const user = await User.findOne({ _id: id });
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User does not exixts!');
+  }
+
+  const response = await User.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true }
+  );
+
+  return response;
+};
+
 export const UserServices = {
   createUser,
   getAllUsersFromDB,
@@ -315,4 +333,5 @@ export const UserServices = {
   updateUserType,
   updateFollowUnfollowMemberInDB,
   getUserCountFromDB,
+  deleteUserFromDB,
 };
