@@ -1,4 +1,3 @@
-import { useUserRegistration } from "@/src/hooks/auth.hook";
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import FXModal from "./FXModal";
@@ -29,14 +28,6 @@ const AddAdminModal = ({
 
     handleAddAdmin(userData, { onSuccess: () => refetchAdmins() });
   };
-
-  {
-    /* <Link href="/admin-dashboard/add-admin" className=" ">
-          <Button className="bg-red-700 text-white">
-            <i className="fa-solid fa-circle-plus" /> Add Admin
-          </Button>
-        </Link> */
-  }
 
   return (
     <FXModal

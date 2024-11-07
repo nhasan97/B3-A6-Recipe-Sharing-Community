@@ -9,7 +9,7 @@ const DashboardPageTitle = ({ title }: TTitleProp) => {
         <GoBackButton />
       </div>
       <div className="text-left space-y-1">
-        <h2 className="text-lg md:text-xl lg:text-2xl">{title.mainTitle}</h2>
+        <h2 className="text-lg md:text-xl lg:text-xl">{title.mainTitle}</h2>
         {title.subTitle && (
           <p className="text-xs md:text-sm text-[#757575]">{title.subTitle}</p>
         )}
