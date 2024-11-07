@@ -1,37 +1,41 @@
+"use client";
+
 import DashboardContainer from "@/src/components/layouts/DashboardContainer";
-import EditProfileModal from "@/src/components/modals/EditProfileModal";
-import axiosInstance from "@/src/lib/AxiosInstance";
-import { Divider } from "@nextui-org/divider";
-import { Image } from "@nextui-org/image";
+import MobileView from "@/src/components/modules/profile/MobileView";
+import TabPCView from "@/src/components/modules/profile/TabPCView";
+import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
+import LoadingSection from "@/src/components/shared/LoadingSection";
+import { useGetUsersRecipeCount } from "@/src/hooks/recipe.hook";
+import { useGetLoggedInUserProfile } from "@/src/hooks/user.hook";
 import React from "react";
 
-const UserProfilePage = async () => {
-  const { data: userData } = await axiosInstance.get(`/profile`);
+const UserProfilePage = () => {
+  const { isLoading: loadingUserData, data: userData } =
+    useGetLoggedInUserProfile();
+
+  const { isLoading: loadingUsersRecipeCount, data: usersRecipeCount } =
+    useGetUsersRecipeCount(userData?.data?._id);
+
+  const title = {
+    mainTitle: "User Profile",
+  };
 
   return (
     <div className="h-screen">
       <DashboardContainer>
-        <div className="flex flex-col justify-center items-center gap-3">
-          <Image
-            alt="NextUI hero Image"
-            src={userData?.data?.profilePhoto}
-            className="size-[200px] rounded-full"
-          />
+        <DashboardPageTitle title={title} />
 
-          <h1 className="text-3xl">{userData?.data?.name}</h1>
-          <p>{userData?.data?.email}</p>
+        {loadingUserData || loadingUsersRecipeCount ? (
+          <LoadingSection />
+        ) : (
+          <div className="w-full h-full overflow-y-auto">
+            {/*tab pc view */}
+            <TabPCView userData={userData} count={usersRecipeCount} />
 
-          <p className="my-6">{userData?.data?.bio}</p>
-
-          <div className="flex items-center gap-3">
-            <p>Status : {userData?.data?.status}</p>
-            <Divider orientation="vertical" />
-            <p>Cell : {userData?.data?.mobileNumber}</p>
-            <Divider orientation="vertical" />
-
-            <EditProfileModal userData={userData} />
+            {/* mobile view */}
+            <MobileView userData={userData} count={usersRecipeCount} />
           </div>
-        </div>
+        )}
       </DashboardContainer>
     </div>
   );

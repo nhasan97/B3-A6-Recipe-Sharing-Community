@@ -40,7 +40,12 @@ const ChangePasswordModal = () => {
         <div className="space-y-6">
           <FXInput name="oldPassword" label="Old Password" />
           <FXInput name="newPassword" label="New Password" />
-          <Button type="submit" className="w-full my-2">
+          <Button
+            className="my-3 w-full bg-red-700 font-semibold text-white"
+            size="lg"
+            type="submit"
+            radius="lg"
+          >
             {isPending ? "Saving..." : "Save"}
           </Button>
         </div>
