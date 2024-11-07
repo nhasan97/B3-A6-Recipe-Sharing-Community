@@ -4,8 +4,9 @@ import { RiUserSettingsFill } from "react-icons/ri";
 import SidebarMenuItem from "./SidebarMenuItem";
 import { GiCampCookingPot } from "react-icons/gi";
 import { MdCardMembership } from "react-icons/md";
+import { IUser } from "@/src/types/user.type";
 
-const UserSideBarMenu = () => {
+const UserSideBarMenu = ({ user }: { user: IUser }) => {
   return (
     <div className="sb flex flex-col justify-center items-start mx-auto">
       <SidebarMenuItem
@@ -26,11 +27,13 @@ const UserSideBarMenu = () => {
         route="/user-dashboard/user-profile"
       />
 
-      <SidebarMenuItem
-        icon={<MdCardMembership className="text-xl" />}
-        menuText="Get Membership"
-        route="/user-dashboard/get-membership"
-      />
+      {user?.userType === "NORMAL" && (
+        <SidebarMenuItem
+          icon={<MdCardMembership className="text-xl" />}
+          menuText="Get Membership"
+          route="/user-dashboard/get-membership"
+        />
+      )}
 
       <SidebarMenuItem
         icon={<i className="fa-solid fa-arrow-left" />}

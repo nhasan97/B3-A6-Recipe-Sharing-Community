@@ -2,6 +2,7 @@
 
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
+import { IoIosArrowBack } from "react-icons/io";
 import React from "react";
 
 const GoBackButton = () => {
@@ -13,7 +14,7 @@ const GoBackButton = () => {
 
   return (
     <Button onClick={handleGoBack} className="group bg-transparent" isIconOnly>
-      <i className="fa-solid fa-arrow-left text-xl text-[#808080] group-hover:text-red-700" />
+      <IoIosArrowBack className="text-xl md:text-2xl xl:text-3xl text-[#808080] group-hover:text-red-700" />
     </Button>
   );
 };

@@ -7,6 +7,7 @@ import UserSideBarMenu from "./UserSideBarMenu";
 import AdminSideBarMenu from "./AdminSideBarMenu";
 import MainLogo from "../../shared/MainLogo";
 import { Image } from "@nextui-org/image";
+import { IUser } from "@/src/types/user.type";
 
 const Sidebar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -52,7 +53,11 @@ const Sidebar = () => {
         </div>
 
         <div className="flex flex-col justify items-start text-[#c5c5c5] p-6">
-          {user?.role === "ADMIN" ? <AdminSideBarMenu /> : <UserSideBarMenu />}
+          {user?.role === "ADMIN" ? (
+            <AdminSideBarMenu />
+          ) : (
+            <UserSideBarMenu user={user as IUser} />
+          )}
         </div>
       </div>
     </div>
