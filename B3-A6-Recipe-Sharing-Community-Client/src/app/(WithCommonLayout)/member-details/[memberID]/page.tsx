@@ -1,68 +1,67 @@
+"use client";
+
 import Container from "@/src/components/layouts/Container";
-import AuthenticationModal from "@/src/components/modals/AuthenticationModal";
-import MembersRecipeCard from "@/src/components/UI/MembersRecipeCard";
-import axiosInstance from "@/src/lib/AxiosInstance";
-import { getCurrentUser } from "@/src/services/AuthService";
-import { IRecipe } from "@/src/types/recipe.type";
-import { Button } from "@nextui-org/button";
-import { Divider } from "@nextui-org/divider";
-import { Image } from "@nextui-org/image";
+import DisplayMembersInfo from "@/src/components/modules/member-details/DisplayMembersInfo";
+import LoadingSection from "@/src/components/shared/LoadingSection";
+import NoData from "@/src/components/shared/NoData";
+import DisplayRecipes from "@/src/components/UI/DisplayRecipes";
+import { useUser } from "@/src/context/user.provider";
+import {
+  useGetUsersRecipeCount,
+  useGetUsersRecipes,
+} from "@/src/hooks/recipe.hook";
+import { useGetSingleUser } from "@/src/hooks/user.hook";
+import { IUser } from "@/src/types/user.type";
 import React from "react";
 
-const MemberDetailsPage = async ({ params }: { params: any }) => {
-  const user = await getCurrentUser();
+const MemberDetailsPage = ({ params }: { params: any }) => {
+  const { isLoading: loadingLoggedInUser, user: loggedInUser } = useUser();
 
-  const { data: userData } = await axiosInstance.get(
-    `/users/${params.memberID}`
+  const { isLoading: loadingMemberData, data: memberData } = useGetSingleUser(
+    params.memberID
   );
 
-  const { data: userRecipeData } = await axiosInstance.get(
-    `/recipes/user/${params.memberID}`
-  );
+  const { isLoading: loadingUsersRecipeCount, data: loadedUsersRecipeCount } =
+    useGetUsersRecipeCount(params.memberID);
+
+  const { isLoading: loadingMembersRecipes, data: membersRecipeData } =
+    useGetUsersRecipes(
+      params.memberID,
+      "",
+      "",
+      "",
+      "",
+      "",
+      0,
+      loadedUsersRecipeCount?.data?.publishedRecipes
+    );
 
   return (
     <Container>
-      <div className="flex flex-col justify-center items-center gap-3">
-        <Image
-          alt="NextUI hero Image"
-          src={userData?.data?.profilePhoto}
-          className="size-[200px] rounded-full"
-        />
-
-        <h1 className="text-3xl">{userData?.data?.name}</h1>
-        <p>{userData?.data?.email}</p>
-
-        <p className="my-6">{userData?.data?.bio}</p>
-
-        <div className="flex items-center gap-3">
-          <p>Followers : {userData?.data?.followers?.length}</p>
-          <Divider orientation="vertical" />
-          <p>Following : {userData?.data?.following?.length}</p>
-          <Divider orientation="vertical" />
-
-          {!user?.email ? (
-            <AuthenticationModal
-              buttonText="Follow"
-              redirect={`/member-details/${params.memberID}`}
-            />
+      <div className="w-full xl:h-[calc(100vh-64px)] grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-6 py-4">
+        <div className="w-full col-span-1 xl:col-span-2 xl:p-3 xl:overflow-y-auto backdrop-blur-md rounded-lg xl:shadow-xl">
+          {loadingMemberData || loadingLoggedInUser ? (
+            <LoadingSection />
           ) : (
-            <Button
-              disabled={
-                user?.role === "ADMIN" || user?.email === userData?.data?.email
-              }
-            >
-              Follow
-            </Button>
+            <DisplayMembersInfo
+              member={memberData}
+              loggedInUser={loggedInUser as IUser}
+            />
           )}
         </div>
-      </div>
 
-      <div>
-        <h2>Recipes By {userData?.data?.name}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
-          {userRecipeData?.data?.map((recipe: IRecipe) => (
-            <MembersRecipeCard key={recipe._id} recipe={recipe} />
-          ))}
+        <div className="w-full col-span-1 xl:col-span-3 xl:p-3 xl:overflow-y-auto backdrop-blur-md rounded-lg">
+          <h1 className="text-2xl mb-6">Recipes by {memberData?.data?.name}</h1>
+          {loadingUsersRecipeCount || loadingMembersRecipes ? (
+            <LoadingSection />
+          ) : membersRecipeData?.data?.length ? (
+            <DisplayRecipes
+              recipeData={membersRecipeData?.data}
+              caller={"memberDetails"}
+            />
+          ) : (
+            <NoData text={"No Recipes Found"} />
+          )}
         </div>
       </div>
     </Container>

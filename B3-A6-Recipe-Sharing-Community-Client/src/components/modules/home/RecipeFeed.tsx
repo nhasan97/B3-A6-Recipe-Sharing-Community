@@ -3,15 +3,20 @@ import RecipeFeedCard from "../../UI/RecipeFeedCard";
 import { IRecipe } from "@/src/types/recipe.type";
 import NoData from "../../shared/NoData";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
 const RecipeFeed = ({
   recipeData,
   fetchData,
   hasMore,
+  refetchAllRecipes,
 }: {
   recipeData: IRecipe[];
   fetchData: () => void;
   hasMore: boolean;
+  refetchAllRecipes: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
 }) => {
   return (
     <div className="mx-auto my-3">
@@ -29,7 +34,11 @@ const RecipeFeed = ({
           scrollableTarget="scrollableDiv"
         >
           {recipeData?.map((recipe: IRecipe) => (
-            <RecipeFeedCard key={recipe._id} recipe={recipe} />
+            <RecipeFeedCard
+              key={recipe._id}
+              recipe={recipe}
+              refetchAllRecipes={refetchAllRecipes}
+            />
           ))}
         </InfiniteScroll>
       ) : (
