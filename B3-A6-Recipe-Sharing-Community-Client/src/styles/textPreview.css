@@ -4,3 +4,34 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+
+.glowing-text {
+    color: red;
+    position: relative;
+    letter-spacing: 15px;
+    text-transform: uppercase;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.144));
+    line-height: 52px;
+    animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+
+    0%,
+
+    50% {
+        color: rgba(129, 4, 4, 0.363);
+        text-shadow: none;
+    }
+
+
+
+    50.1%,
+
+
+    100% {
+        color: white;
+        text-shadow: 0 0 10px #fd0f23, 0 0 20px #fd0f23, 0 0 40px #fd0f23, 0 0 80px #fd0f23, 0 0 160px #fd0f23;
+    }
+}

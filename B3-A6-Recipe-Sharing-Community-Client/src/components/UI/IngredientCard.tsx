@@ -6,7 +6,7 @@ import React from "react";
 const IngredientCard = ({ ingredient }: { ingredient: string }) => {
   return (
     <div>
-      <Checkbox>{ingredient}</Checkbox>
+      <Checkbox color="danger">{ingredient}</Checkbox>
     </div>
   );
 };

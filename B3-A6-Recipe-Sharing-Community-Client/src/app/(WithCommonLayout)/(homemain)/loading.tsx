@@ -1,6 +1,4 @@
-import Container from "@/src/components/layouts/Container";
 import LoadingPage from "@/src/components/shared/LoadingPage";
-import { Spinner } from "@nextui-org/spinner";
 import React from "react";
 
 const loading = () => {

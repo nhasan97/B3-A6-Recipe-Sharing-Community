@@ -7,6 +7,7 @@ import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
 import LoadingSection from "@/src/components/shared/LoadingSection";
 import { useUser } from "@/src/context/user.provider";
 import { usePayment } from "@/src/hooks/payment.hook";
+import { logout } from "@/src/services/AuthService";
 import { IUser } from "@/src/types/user.type";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
@@ -16,7 +17,11 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 const GetMembershipPage = () => {
-  const { isLoading: loadingLoggedInUser, user: loggedInUser } = useUser();
+  const {
+    setIsLoading: userLoading,
+    isLoading: loadingLoggedInUser,
+    user: loggedInUser,
+  } = useUser();
   const router = useRouter();
 
   const { mutate: mutatePayment, isPending } = usePayment();
@@ -30,7 +35,11 @@ const GetMembershipPage = () => {
         onClick: () => {
           try {
             mutatePayment(loggedInUser?._id as string, {
-              onSuccess: () => router.push("/"),
+              onSuccess: () => {
+                logout();
+                userLoading(true);
+                router.push("/login");
+              },
             });
           } catch (err: any) {
             toast.error(err.data.message, { duration: 2000 });
@@ -129,6 +138,7 @@ const GetMembershipPage = () => {
                     className="w-full bg-red-700 text-white"
                     size="lg"
                     radius="lg"
+                    isDisabled={loggedInUser?.userType === "PRO"}
                   >
                     {isPending ? "Proceeding..." : "Proceed"}
                   </Button>
