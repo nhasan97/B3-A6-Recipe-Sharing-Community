@@ -1,32 +1,44 @@
+"use client";
+
 import DashboardContainer from "@/src/components/layouts/DashboardContainer";
+import AddAdminModal from "@/src/components/modals/AddAdminModal";
 import MobileView from "@/src/components/modules/allAdmins/MobileView/MobileView";
 import TabPCView from "@/src/components/modules/allAdmins/TabPCView/TabPCView";
-import axiosInstance from "@/src/lib/AxiosInstance";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
+import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
+import LoadingSection from "@/src/components/shared/LoadingSection";
+import PageTitle from "@/src/components/shared/PageTitle";
+import { useGetAllAdmins } from "@/src/hooks/user.hook";
 import React from "react";
 
-const AllAdminsPage = async () => {
-  const { data: userData } = await axiosInstance.get("/users/admins");
+const AllAdminsPage = () => {
+  const {
+    isLoading: loadingUserData,
+    data: userData,
+    refetch: refetchAdmins,
+  } = useGetAllAdmins();
+
+  const title = {
+    mainTitle: "Admin List",
+  };
 
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-[url('/assets/images/users-bg-mobile.png')] md:bg-[url('/assets/images/users-bg-tab.png')] xl:bg-[url('/assets/images/admins-bg.png')] bg-cover bg-center bg-no-repeat">
       <DashboardContainer>
-        {/* <Helmet>
-            <title>Blooms & Beyond | Dashboard | Products</title>
-          </Helmet> */}
+        <DashboardPageTitle title={title} />
 
-        {/* <Title title={"Products"}></Title> */}
+        <AddAdminModal refetchAdmins={refetchAdmins} />
 
-        <Link href="/admin-dashboard/add-admin" className="self-start mb-6">
-          <Button>Add Admin</Button>
-        </Link>
+        {loadingUserData ? (
+          <LoadingSection />
+        ) : (
+          <>
+            {/*tab pc view */}
+            <TabPCView userData={userData} refetchAdmins={refetchAdmins} />
 
-        {/*tab pc view */}
-        <TabPCView userData={userData} />
-
-        {/* mobile view */}
-        <MobileView userData={userData} />
+            {/* mobile view */}
+            <MobileView userData={userData} refetchAdmins={refetchAdmins} />
+          </>
+        )}
       </DashboardContainer>
     </div>
   );

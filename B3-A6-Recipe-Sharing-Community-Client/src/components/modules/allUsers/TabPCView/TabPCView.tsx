@@ -2,8 +2,17 @@ import { IUser } from "@/src/types/user.type";
 import React from "react";
 import UserTableRow from "./UserTableRow";
 import NoData from "@/src/components/shared/NoData";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
-const TabPCView = ({ userData }: { userData: { data: IUser[] } }) => {
+const TabPCView = ({
+  userData,
+  refetchUsers,
+}: {
+  userData: { data: IUser[] };
+  refetchUsers: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+}) => {
   return (
     <div className="bg-black/20 backdrop-blur-lg hidden sm:block w-full h-[80%] mt-6 overflow-y-auto rounded-lg border">
       {userData!.data?.length > 0 ? (
@@ -20,7 +29,11 @@ const TabPCView = ({ userData }: { userData: { data: IUser[] } }) => {
           <tbody>
             {/* row  */}
             {userData!.data?.map((user: IUser) => (
-              <UserTableRow key={user?._id} user={user} />
+              <UserTableRow
+                key={user?._id}
+                user={user}
+                refetchUsers={refetchUsers}
+              />
             ))}
           </tbody>
         </table>

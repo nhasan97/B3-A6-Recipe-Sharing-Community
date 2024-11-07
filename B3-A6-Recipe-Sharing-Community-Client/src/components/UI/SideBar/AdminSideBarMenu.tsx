@@ -8,26 +8,20 @@ const AdminSideBarMenu = () => {
     <div className="sb flex flex-col justify-center items-start mx-auto">
       <SidebarMenuItem
         icon={<GiCampCookingPot className="text-xl" />}
-        menuText="All Recipes"
+        menuText="Recipes"
         route="/admin-dashboard/all-recipes"
       />
 
       <SidebarMenuItem
         icon={<i className="fa-solid fa-users" />}
-        menuText="All Users"
+        menuText="Users"
         route="/admin-dashboard/all-users"
       />
 
       <SidebarMenuItem
         icon={<RiAdminFill className="text-xl" />}
-        menuText="All Admins"
+        menuText="Admins"
         route="/admin-dashboard/all-admins"
-      />
-
-      <SidebarMenuItem
-        icon={<i className="fa-solid fa-user-tie" />}
-        menuText="Add Admin"
-        route="/admin-dashboard/add-admin"
       />
 
       <SidebarMenuItem

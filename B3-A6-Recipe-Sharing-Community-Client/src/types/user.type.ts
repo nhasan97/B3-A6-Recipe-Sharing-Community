@@ -9,6 +9,10 @@ export interface IUser {
   status: string;
   mobileNumber: string;
   profilePhoto: string;
+  bio?: string;
+  followers?: string[];
+  following?: string[];
+  userType: string;
   createdAt?: string;
   updatedAt?: string;
   isDeleted?: boolean;

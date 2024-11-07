@@ -10,8 +10,17 @@ import { CgBlock, CgUnblock } from "react-icons/cg";
 import { MdDelete } from "react-icons/md";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Spinner } from "@nextui-org/spinner";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
-const UserTableRow = ({ user }: { user: IUser }) => {
+const UserTableRow = ({
+  user,
+  refetchUsers,
+}: {
+  user: IUser;
+  refetchUsers: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+}) => {
   // -------handling block/unblock user-------------------------------------------------------------------------
 
   const { mutate: handleChangeUserStatus, isPending: pendingChangeUserStatus } =
@@ -23,10 +32,13 @@ const UserTableRow = ({ user }: { user: IUser }) => {
         label: "Yes",
         onClick: () => {
           try {
-            handleChangeUserStatus({
-              userId: user?._id,
-              status,
-            });
+            handleChangeUserStatus(
+              {
+                userId: user?._id,
+                status,
+              },
+              { onSuccess: () => refetchUsers() }
+            );
           } catch (err: any) {
             toast.error(err.data.message, { duration: 2000 });
           }
@@ -51,9 +63,12 @@ const UserTableRow = ({ user }: { user: IUser }) => {
           label: "Yes",
           onClick: () => {
             try {
-              deleteUser({
-                userId: user?._id,
-              });
+              deleteUser(
+                {
+                  userId: user?._id,
+                },
+                { onSuccess: () => refetchUsers() }
+              );
             } catch (err: any) {
               toast.error(err.data.message, { duration: 2000 });
             }

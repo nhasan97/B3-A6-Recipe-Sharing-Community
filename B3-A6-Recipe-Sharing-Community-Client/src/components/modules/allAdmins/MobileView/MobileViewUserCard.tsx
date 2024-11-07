@@ -1,14 +1,39 @@
 "use client";
 
-import { useChangeUserStatus } from "@/src/hooks/user.hook";
+import { useUser } from "@/src/context/user.provider";
+import { useChangeUserStatus, useDeleleUser } from "@/src/hooks/user.hook";
 import { IUser } from "@/src/types/user.type";
 import { Badge } from "@nextui-org/badge";
 import { Button } from "@nextui-org/button";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/dropdown";
 import { Image } from "@nextui-org/image";
+import { Spinner } from "@nextui-org/spinner";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { CgBlock, CgUnblock } from "react-icons/cg";
+import { GrStatusGoodSmall } from "react-icons/gr";
+import { ImBlocked } from "react-icons/im";
+import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 
-const MobileViewUserCard = ({ user }: { user: IUser }) => {
-  const { mutate: handleChangeUserStatus, isPending } = useChangeUserStatus();
+const MobileViewUserCard = ({
+  user,
+  refetchAdmins,
+}: {
+  user: IUser;
+  refetchAdmins: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+}) => {
+  const { user: loggedInUser } = useUser();
+
+  // -------handling block/unblock user-------------------------------------------------------------------------
+  const { mutate: handleChangeUserStatus, isPending: pendingChangeUserStatus } =
+    useChangeUserStatus();
 
   const handleBlockUnblockUser = (status: string) => {
     toast.warning("Are you sure to change user status?", {
@@ -16,10 +41,13 @@ const MobileViewUserCard = ({ user }: { user: IUser }) => {
         label: "Yes",
         onClick: () => {
           try {
-            const res = handleChangeUserStatus({
-              userId: user?._id,
-              status,
-            });
+            handleChangeUserStatus(
+              {
+                userId: user?._id,
+                status,
+              },
+              { onSuccess: () => refetchAdmins() }
+            );
           } catch (err: any) {
             toast.error(err.data.message, { duration: 2000 });
           }
@@ -31,34 +59,137 @@ const MobileViewUserCard = ({ user }: { user: IUser }) => {
       },
     });
   };
+
+  // -------handling delete user-------------------------------------------------------------------------
+  const { mutate: deleteUser, isPending: pendingDeleteUser } = useDeleleUser();
+
+  const handleDeleteUser = () => {
+    toast.warning(
+      "Are you sure to delete user? You won't be able to revert this!",
+      {
+        action: {
+          label: "Yes",
+          onClick: () => {
+            try {
+              deleteUser(
+                {
+                  userId: user?._id,
+                },
+                { onSuccess: () => refetchAdmins() }
+              );
+            } catch (err: any) {
+              toast.error(err.data.message, { duration: 2000 });
+            }
+          },
+        },
+        cancel: {
+          label: "Cancel",
+          onClick: () => toast.info("Cancelled!", { duration: 2000 }),
+        },
+      }
+    );
+  };
+
   return (
-    <div className="h-fit  bg-white rounded-md shadow-md">
-      <div className=" p-5 space-y-3">
+    <div className="h-fit bg-black/10 backdrop-blur-md rounded-md shadow-md">
+      <div className="flex justify-between items-center px-2 py-5 gap-6">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Badge content={user?.status} color="primary">
+            <div className="text-small text-default-500 relative">
               <Image
                 src={user?.profilePhoto}
-                className="size-14 p-[2px] border-2 border-[#5D7E5F] rounded-full"
+                alt="nextui logo"
+                width={60}
+                height={60}
+                radius="sm"
+                className="object-cover object-center"
+                isBlurred
               />
-            </Badge>
-            <h2 className=" text-[#5D7E5F] font-semibold ">{user?.name}</h2>
+              {user?.status === "ACTIVE" && (
+                <GrStatusGoodSmall className="text-lg text-green-500 border-2 border-white rounded-full absolute right-0 translate-x-1 -translate-y-3 z-10" />
+              )}
+              {user?.status === "BLOCKED" && (
+                <ImBlocked className="text-lg text-red-700 border-2 border-white rounded-full absolute right-0 translate-x-1 -translate-y-3 z-10" />
+              )}
+            </div>
+
+            <div className="flex flex-col">
+              <p className="text-lg text-[#121213]">{user?.name}</p>
+              {/* <p className="text-xs text-default-500">{user?.email}</p> */}
+              <div className="flex items-center gap-1 text-xs text-default-500">
+                <p>{user?.email}</p>
+              </div>
+              <div className="flex items-center gap-1 text-xs text-default-500">
+                <p>+{user?.mobileNumber}</p>
+              </div>
+            </div>
           </div>
-          {user?.status === "ACTIVE" && (
-            <Button onClick={() => handleBlockUnblockUser("BLOCKED")}>
-              {isPending ? "Blocking..." : "Block"}
-            </Button>
-          )}
-          {user?.status === "BLOCKED" && (
-            <Button onClick={() => handleBlockUnblockUser("ACTIVE")}>
-              {isPending ? "Unblocking..." : "Unblock"}
-            </Button>
-          )}
         </div>
 
-        <div className="flex flex-col justify-center">
-          <p>Email: {user?.email}</p>
-          <p>Cell: {user?.mobileNumber}</p>
+        <div className="">
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                isIconOnly
+                radius="full"
+                size="sm"
+                className="bg-transparent text-red-700"
+              >
+                <i className="fa-solid fa-ellipsis-vertical" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions" closeOnSelect={false}>
+              {/* //// block unblock button //// */}
+
+              {user?.status === "ACTIVE" ? (
+                <DropdownItem
+                  key="block-user"
+                  onClick={() => handleBlockUnblockUser("BLOCKED")}
+                  isDisabled={loggedInUser?._id === user?._id}
+                >
+                  {pendingChangeUserStatus ? (
+                    <Spinner size="sm" color="danger" className="mx-auto" />
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <CgBlock className="text-2xl text-red-700" />
+                      <p>Block User</p>
+                    </div>
+                  )}
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  key="unblock-user"
+                  onClick={() => handleBlockUnblockUser("ACTIVE")}
+                  isDisabled={loggedInUser?._id === user?._id}
+                >
+                  {pendingChangeUserStatus ? (
+                    <Spinner size="sm" color="success" className="mx-auto" />
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <CgUnblock className="text-2xl text-green-700" />
+                      <p>Unblock User</p>
+                    </div>
+                  )}
+                </DropdownItem>
+              )}
+
+              {/* //// delete user button //// */}
+              <DropdownItem
+                key="delete-user"
+                onClick={() => handleDeleteUser()}
+                isDisabled={loggedInUser?._id === user?._id}
+              >
+                {pendingDeleteUser ? (
+                  <Spinner size="sm" color="danger" className="mx-auto" />
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <MdDelete className="text-2xl text-red-700" />
+                    <p>Delete User</p>
+                  </div>
+                )}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </div>
     </div>

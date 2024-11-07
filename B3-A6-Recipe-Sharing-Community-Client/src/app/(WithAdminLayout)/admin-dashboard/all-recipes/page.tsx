@@ -8,6 +8,7 @@ import NoData from "@/src/components/shared/NoData";
 import Pagination from "@/src/components/shared/Pagination";
 import { useRecipeProvider } from "@/src/context/recipes.providers";
 import DisplayRecipes from "@/src/components/UI/DisplayRecipes";
+import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
 
 const AllRecipesPage = () => {
   const {
@@ -23,9 +24,15 @@ const AllRecipesPage = () => {
     resetPagination();
   }, []);
 
+  const title = {
+    mainTitle: "Recipes",
+  };
+
   return (
     <div className="h-screen bg-[url('/assets/images/dashboard-recipes-bg-mobileTab.png')] xl:bg-[url('/assets/images/dashboard-recipes-bg-pc.png')] bg-cover bg-center bg-no-repeat">
       <DashboardContainer>
+        <DashboardPageTitle title={title} />
+
         <div className="w-full relative">
           <Browser />
         </div>

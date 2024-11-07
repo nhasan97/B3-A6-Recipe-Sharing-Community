@@ -5,12 +5,10 @@ import { IUser } from "@/src/types/user.type";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { Spinner } from "@nextui-org/spinner";
-import { Tooltip } from "@nextui-org/tooltip";
 import { CgBlock, CgUnblock } from "react-icons/cg";
-import { MdDelete, MdEmail } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 import { GrStatusGoodSmall } from "react-icons/gr";
-import { FaPhoneAlt } from "react-icons/fa";
 import { ImBlocked } from "react-icons/im";
 import {
   Dropdown,
@@ -18,8 +16,17 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
-const MobileViewUserCard = ({ user }: { user: IUser }) => {
+const MobileViewUserCard = ({
+  user,
+  refetchUsers,
+}: {
+  user: IUser;
+  refetchUsers: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+}) => {
   // -------handling block/unblock user-------------------------------------------------------------------------
   const { mutate: handleChangeUserStatus, isPending: pendingChangeUserStatus } =
     useChangeUserStatus();
@@ -30,10 +37,13 @@ const MobileViewUserCard = ({ user }: { user: IUser }) => {
         label: "Yes",
         onClick: () => {
           try {
-            handleChangeUserStatus({
-              userId: user?._id,
-              status,
-            });
+            handleChangeUserStatus(
+              {
+                userId: user?._id,
+                status,
+              },
+              { onSuccess: () => refetchUsers() }
+            );
           } catch (err: any) {
             toast.error(err.data.message, { duration: 2000 });
           }
@@ -57,9 +67,12 @@ const MobileViewUserCard = ({ user }: { user: IUser }) => {
           label: "Yes",
           onClick: () => {
             try {
-              deleteUser({
-                userId: user?._id,
-              });
+              deleteUser(
+                {
+                  userId: user?._id,
+                },
+                { onSuccess: () => refetchUsers() }
+              );
             } catch (err: any) {
               toast.error(err.data.message, { duration: 2000 });
             }

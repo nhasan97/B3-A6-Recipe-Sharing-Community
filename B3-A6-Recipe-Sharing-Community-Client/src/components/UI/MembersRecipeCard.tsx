@@ -18,6 +18,7 @@ import { Spinner } from "@nextui-org/spinner";
 import GetMembershipModal from "../modals/GetMembershipModal";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "@nextui-org/tooltip";
+import { MdUnpublished } from "react-icons/md";
 
 const MembersRecipeCard = ({
   recipe,
@@ -136,7 +137,7 @@ const MembersRecipeCard = ({
               )}
             </div>
 
-            {/* //// Card retaing //// */}
+            {/* //// Card rating //// */}
             <Rating style={{ maxWidth: 100 }} value={rating} readOnly />
 
             {/* //// up down votes //// */}
@@ -219,20 +220,29 @@ const MembersRecipeCard = ({
                 >
                   <i className="fa-solid fa-info" />
                 </Button>
-                <EditRecipeModal recipe={recipe} />
-                <Button
-                  className="flex-1 text-tiny text-white bg-black/20"
-                  size="sm"
-                  radius="full"
-                  // isIconOnly
-                  onClick={() => handleDeleteRecipe(_id as string)}
-                >
-                  {pendingDeleteRecipe ? (
-                    <Spinner color="white" size="sm" />
-                  ) : (
-                    <i className="fa-solid fa-trash" />
-                  )}
-                </Button>
+
+                {status === "PUBLISHED" ? (
+                  <>
+                    <EditRecipeModal recipe={recipe} />
+                    <Button
+                      className="flex-1 text-tiny text-white bg-black/20"
+                      size="sm"
+                      radius="full"
+                      onClick={() => handleDeleteRecipe(_id as string)}
+                    >
+                      {pendingDeleteRecipe ? (
+                        <Spinner color="white" size="sm" />
+                      ) : (
+                        <i className="fa-solid fa-trash" />
+                      )}
+                    </Button>
+                  </>
+                ) : (
+                  <div className="bg-red-700 flex items-center gap-1 px-1 py-2 text-tiny text-white text-center rounded-full ">
+                    <MdUnpublished />
+                    <p>Unpublished by Admin</p>
+                  </div>
+                )}
               </div>
             ) : caller !== "dashboard" &&
               contentType === "Exclusive" &&

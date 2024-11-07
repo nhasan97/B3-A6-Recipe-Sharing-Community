@@ -12,11 +12,7 @@ const GoBackButton = () => {
   };
 
   return (
-    <Button
-      onClick={handleGoBack}
-      className="group bg-transparent absolute top-2 left-2 sm:top-5 md:left-10"
-      isIconOnly
-    >
+    <Button onClick={handleGoBack} className="group bg-transparent" isIconOnly>
       <i className="fa-solid fa-arrow-left text-xl text-[#808080] group-hover:text-red-700" />
     </Button>
   );

@@ -33,7 +33,7 @@ const Browser = ({
 
   return (
     <div>
-      {/* pc view */}
+      {/*----------------- pc view -----------------*/}
       <div className="hidden w-full md:flex justify-evenly items-center gap-3">
         {/* search */}
 
@@ -96,11 +96,10 @@ const Browser = ({
         </Button>
       </div>
 
-      {/* mobile view */}
-
+      {/*----------------- mobile view -----------------*/}
       <Button
         isIconOnly
-        className="md:hidden mt-[40px] bg-red-700 text-[rgba(255,255,255,0.88)]"
+        className="md:hidden bg-red-700 text-[rgba(255,255,255,0.88)]"
         onClick={() => setOpenSearchFilterBox(!openSearchFilterBox)}
       >
         {openSearchFilterBox ? (

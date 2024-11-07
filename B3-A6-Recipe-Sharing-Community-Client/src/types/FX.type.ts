@@ -3,8 +3,20 @@ import { SubmitHandler } from "react-hook-form";
 
 export interface IFXModalProps {
   title: string;
-  buttonText: string;
+  size?:
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "xs"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "full"
+    | undefined;
   children: ReactNode;
+  buttonText: string | React.ReactNode;
   buttonVariant?:
     | "solid"
     | "bordered"
@@ -15,6 +27,9 @@ export interface IFXModalProps {
     | "ghost"
     | undefined;
   buttonClassName?: string;
+  buttonSize?: "sm" | "md" | "lg";
+  radius?: "none" | "sm" | "md" | "lg" | "full";
+  isIconOnly?: boolean;
 }
 
 export interface IFormConfig {
