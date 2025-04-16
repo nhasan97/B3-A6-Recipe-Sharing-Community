@@ -43,31 +43,31 @@ const CategoryWiseRecipePage = ({ params }: { params: any }) => {
           />
         </div>
         <div className="h-[calc(100%-96px)] py-4 overflow-y-auto">
-          {loadingUser || loadingRecipes ? (
-            <LoadingSection />
-          ) : recipeData?.length ? (
-            <div className="w-full h-full grid grid-cols-1 lg:grid-cols-4 gap-6 ">
-              <div
-                style={{ backgroundImage: `url(${matchedCategory?.image})` }}
-                className="h-[200px] md:h-full lg:col-span-1 flex lg:flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-fixed bg-[#000000af] bg-blend-overlay rounded-lg"
-              >
-                <p className="hidden vertical-text lg:flex lg:text-4xl xl:text-5xl 2xl:text-7xl text-white font-medium text-center shadow-lg shadow-white">
-                  {matchedCategory?.category}
-                </p>
-                <p className="lg:hidden flex text-2xl md:text-5xl text-white font-medium text-center shadow-lg shadow-white">
-                  {matchedCategory?.category}
-                </p>
-              </div>
-              <div className="lg:col-span-3">
+          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-4 gap-6 ">
+            <div
+              style={{ backgroundImage: `url(${matchedCategory?.image})` }}
+              className="h-[200px] md:h-full lg:col-span-1 flex lg:flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-fixed bg-[#000000af] bg-blend-overlay rounded-lg"
+            >
+              <p className="hidden vertical-text lg:flex lg:text-4xl xl:text-5xl 2xl:text-7xl text-white font-medium text-center shadow-lg shadow-white">
+                {matchedCategory?.category}
+              </p>
+              <p className="lg:hidden flex text-2xl md:text-5xl text-white font-medium text-center shadow-lg shadow-white">
+                {matchedCategory?.category}
+              </p>
+            </div>
+            <div className="lg:col-span-3">
+              {loadingUser || loadingRecipes ? (
+                <LoadingSection />
+              ) : recipeData?.length ? (
                 <DisplayRecipes
                   recipeData={recipeData}
                   caller="categoryWiseRecipes"
                 />
-              </div>
+              ) : (
+                <NoData text={"No Data Found"} />
+              )}
             </div>
-          ) : (
-            <NoData text={"No Data Found"} />
-          )}
+          </div>
         </div>
       </div>
     </Container>
