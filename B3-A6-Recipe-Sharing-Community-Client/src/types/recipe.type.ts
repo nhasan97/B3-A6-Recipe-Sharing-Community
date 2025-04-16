@@ -19,6 +19,7 @@ export interface IRecipe {
   ingredients: string[];
   cookingTime: string;
   images: string[];
+  category: string;
   contentType: keyof typeof CONTENT_TYPE;
   rating: number;
   upVote: string[];
@@ -57,6 +58,9 @@ export interface IRecipeContext {
   ) => Promise<QueryObserverResult<any, Error>>;
   loadingUsersRecipes: boolean;
   usersRecipeData: IRecipe[];
+  refetchUsersRecipes: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
   resetBrowser: () => void;
   resetPagination: () => void;
 }

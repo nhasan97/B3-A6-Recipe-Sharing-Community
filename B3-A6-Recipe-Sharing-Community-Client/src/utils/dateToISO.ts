@@ -1,11 +1,4 @@
-import { IDate } from "../types/date.type";
-
 export const dateToISO = (passedDate: any) => {
-  // if (!passedDate) {
-  //   return new Date().toISOString();
-  // }
-
-  // Convert to a JavaScript Date object
   const date = new Date(passedDate);
 
   // Extract the date components
