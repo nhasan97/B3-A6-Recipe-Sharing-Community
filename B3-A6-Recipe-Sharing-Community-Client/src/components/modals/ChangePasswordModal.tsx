@@ -22,7 +22,7 @@ const ChangePasswordModal = () => {
       onSuccess: () => {
         logout();
         userLoading(true);
-        router.push("/");
+        router.push("/login");
       },
     });
   };
