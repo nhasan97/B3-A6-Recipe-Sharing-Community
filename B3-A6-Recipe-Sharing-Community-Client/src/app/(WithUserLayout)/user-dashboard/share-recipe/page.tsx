@@ -11,9 +11,7 @@ import { useUser } from "@/src/context/user.provider";
 import { useShareRecipe } from "@/src/hooks/recipe.hook";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
-import React, { useRef, useState } from "react";
-import dynamic from "next/dynamic";
-const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+import React, { useState } from "react";
 import {
   Controller,
   FieldValues,
@@ -22,16 +20,38 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
+import { useRecipeProvider } from "@/src/context/recipes.providers";
+import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
+import "../../../../styles/jodit.css";
+import dynamic from "next/dynamic";
+
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false }) as any;
 
 const ShareRecipePage = () => {
   const { user } = useUser();
+  const { refetchUsersRecipes } = useRecipeProvider();
   const methods = useForm();
   const { control, handleSubmit } = methods;
-  const editor = useRef(null);
   const [content, setContent] = useState("");
-  const config = {
+  const joditConfig = {
     readonly: false,
-    placeholder: "Start typings...",
+    placeholder: "Cooking Instructions...",
+    toolbarButtonSize: "small", // Size of toolbar buttons: "small", "medium", "large"
+    theme: "default", // Use "default" or "dark" theme
+    minHeight: 300, // Minimum height of the editor
+    toolbarAdaptive: true, // Makes toolbar responsive to screen size
+    buttons: [
+      "bold",
+      "italic",
+      "underline",
+      "|",
+      "ul",
+      "ol",
+      "|",
+      "link",
+      "image",
+      "table",
+    ],
   };
 
   // -----------------------------------------------------------------------------------
@@ -111,156 +131,216 @@ const ShareRecipePage = () => {
       formData.append("itemImages", image);
     }
 
-    handleShareRecipe(formData);
+    handleShareRecipe(formData, { onSuccess: () => refetchUsersRecipes() });
+  };
+
+  const title = {
+    mainTitle: "Share Recipes",
   };
 
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-[url('/assets/images/users-bg-mobile.png')] md:bg-[url('/assets/images/users-bg-tab.png')] xl:bg-[url('/assets/images/users-bg.png')] bg-cover bg-center bg-no-repeat">
       <DashboardContainer>
-        {/* <Helmet>
-      <title>Blooms & Beyond | Dashboard | Products</title>
-    </Helmet> */}
+        <DashboardPageTitle title={title} />
 
-        {/* <Title title={"Products"}></Title> */}
+        {/* <div className="w-full"> */}
 
-        <div className="w-full h-full flex flex-col overflow-y-auto">
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-              <div className="w-full flex flex-col xl:flex-row gap-6">
-                <div className="w-full h-full flex-1 flex flex-col justify-between gap-6">
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
+        <div className="w-full h-full flex flex-col bg-black/20 backdrop-blur-md p-5 md:p-10 rounded-lg overflow-y-auto">
+          <h3 className="my-2 md:text-2xl font-bold ">
+            Share the flavors of your kitchen with the world!
+          </h3>
+          <p className="hidden md:flex mb-4 text-[#696969]">
+            Your recipe could inspire others to create memories and discover new
+            favorites.
+          </p>
 
-                  <FXInput name="title" label="Title" />
+          <div className="h-full overflow-y-auto">
+            <FormProvider {...methods}>
+              <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                <div className="w-full flex flex-col gap-6">
+                  <h4>Basic Information</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                    <FXInput name="title" label="Title" required={true} />
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                    <FXSelect
+                      name="category"
+                      label="Category"
+                      options={categoryOptions}
+                      required={true}
+                    />
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                    <FXInput
+                      name="cookingTime"
+                      label="Cooking Time"
+                      required={true}
+                    />
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                    <FXSelect
+                      name="contentType"
+                      label="Content Type"
+                      options={contentTypeOptions}
+                      required={true}
+                    />
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                  </div>
 
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                  <Divider />
 
-                  <Controller
-                    name="instruction"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <div>
-                        <label htmlFor={field.name}>Instructions</label>
-                        {/* <JoditEditor
-                          value={content}
-                          config={config}
-                          onBlur={(newContent) => {
-                            setContent(newContent);
-                            field.onChange(newContent);
-                          }}
-                        /> */}
+                  <h4>Instructions and Ingredients</h4>
+                  <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+
+                    <div className="w-full overflow-y-auto p-3 rounded-xl border-2 border-default-200 text-default-500 shadow-sm transition-all duration-100 hover:border-default-400">
+                      <div className="flex justify-between items-center">
+                        <h1>Ingredients</h1>
+                        <Button
+                          onClick={handleAppendIngredients}
+                          className="bg-white"
+                          isIconOnly
+                        >
+                          <i className="fa-solid fa-plus text-red-700" />
+                        </Button>
                       </div>
-                    )}
-                  />
 
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-
-                  <div className="w-full p-3 rounded-xl border-2 border-default-200 text-default-500 shadow-sm transition-all duration-100 hover:border-default-400">
-                    <div className="flex justify-between items-center">
-                      <h1>Ingredients</h1>
-                      <Button onClick={handleAppendIngredients}>Append</Button>
-                    </div>
-
-                    <div className="space-y-6">
-                      {IFields.map((field, index) => (
-                        <div key={field.id} className="flex items-center gap-6">
-                          <FXInput
-                            name={`ingredients.${index}.value`}
-                            label="Ingredient"
-                          />
-                          <Button onClick={() => IRemove(index)}>Remove</Button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-
-                  <FXSelect
-                    name="category"
-                    label="Category"
-                    options={categoryOptions}
-                  />
-
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-                </div>
-
-                <Divider orientation="vertical" className="hidden xl:flex" />
-
-                <div className="w-full h-full flex-1 flex flex-col justify-between gap-6">
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-
-                  <FXInput name="cookingTime" label="Cooking Time" />
-
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-
-                  <FXSelect
-                    name="contentType"
-                    label="Content Type"
-                    options={contentTypeOptions}
-                  />
-
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-
-                  <div>
-                    <div>
-                      <label
-                        className="flex h-14 w-full cursor-pointer items-center justify-center rounded-xl border-2 border-default-200 text-default-500 shadow-sm transition-all duration-100 hover:border-default-400"
-                        htmlFor="image"
-                      >
-                        Upload image
-                      </label>
-                      <input
-                        type="file"
-                        multiple
-                        id="image"
-                        name="title"
-                        className="hidden"
-                        onChange={(e) => handlImageChange(e)}
-                      />
-                    </div>
-
-                    <div className="flex items-center gap-4 my-4 flex-wrap">
-                      {imagePreviews.length > 0 &&
-                        imagePreviews.map((imageDataUrl) => (
-                          <img
-                            key={imageDataUrl}
-                            src={imageDataUrl}
-                            alt="item"
-                            className="size-20 object-cover object-center rounded-md"
-                          />
+                      <div className="space-y-6">
+                        {IFields.map((field, index) => (
+                          <div
+                            key={field.id}
+                            className="flex items-center gap-6"
+                          >
+                            <FXInput
+                              name={`ingredients.${index}.value`}
+                              label="Ingredient"
+                            />
+                            <Button
+                              onClick={() => IRemove(index)}
+                              className="border border-white"
+                              isIconOnly
+                            >
+                              <i className="fa-solid fa-minus text-red-700" />
+                            </Button>
+                          </div>
                         ))}
-                    </div>
-                  </div>
-
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
-
-                  <div className="w-full p-3 rounded-xl border-2 border-default-200 text-default-500 shadow-sm transition-all duration-100 hover:border-default-400">
-                    <div className="flex justify-between items-center">
-                      <h1>Tags</h1>
-                      <Button onClick={handleAppendTags}>Append</Button>
+                      </div>
                     </div>
 
-                    <div className="space-y-6">
-                      {TFields.map((field, index) => (
-                        <div key={field.id} className="flex items-center gap-6">
-                          <FXInput name={`tags.${index}.value`} label="Tag" />
-                          <Button onClick={() => TRemove(index)}>Remove</Button>
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+
+                    <Controller
+                      name="instruction"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <div>
+                          {/* <label htmlFor={field.name}>Instructions</label> */}
+                          <JoditEditor
+                            value={content}
+                            config={joditConfig}
+                            onBlur={(newContent: string) => {
+                              setContent(newContent);
+                              field.onChange(newContent);
+                            }}
+                          />
                         </div>
-                      ))}
-                    </div>
+                      )}
+                    />
+
+                    {/* <FXTextarea
+                      name="instruction"
+                      label="Instructions"
+                      required={true}
+                    /> */}
+
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
                   </div>
 
-                  {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                  <Divider />
+
+                  <h4>Media and Tags</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+
+                    <div>
+                      <div>
+                        <label
+                          className="flex h-14 w-full cursor-pointer items-center justify-center rounded-xl border-2 border-default-200 text-default-500 shadow-sm transition-all duration-100 hover:border-default-400"
+                          htmlFor="image"
+                        >
+                          Upload image
+                        </label>
+                        <input
+                          type="file"
+                          multiple
+                          id="image"
+                          name="title"
+                          className="hidden"
+                          onChange={(e) => handlImageChange(e)}
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-4 my-4 flex-wrap">
+                        {imagePreviews.length > 0 &&
+                          imagePreviews.map((imageDataUrl) => (
+                            <img
+                              key={imageDataUrl}
+                              src={imageDataUrl}
+                              alt="item"
+                              className="size-20 object-cover object-center rounded-md"
+                            />
+                          ))}
+                      </div>
+                    </div>
+
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+
+                    <div className="w-full p-3 rounded-xl border-2 border-default-200 text-default-500 shadow-sm transition-all duration-100 hover:border-default-400">
+                      <div className="flex justify-between items-center">
+                        <h1>Tags</h1>
+                        <Button
+                          onClick={handleAppendTags}
+                          className="bg-white"
+                          isIconOnly
+                        >
+                          <i className="fa-solid fa-plus  text-red-700" />
+                        </Button>
+                      </div>
+
+                      <div className="space-y-6">
+                        {TFields.map((field, index) => (
+                          <div
+                            key={field.id}
+                            className="flex items-center gap-6"
+                          >
+                            <FXInput name={`tags.${index}.value`} label="Tag" />
+                            <Button
+                              onClick={() => TRemove(index)}
+                              className="border border-white"
+                              isIconOnly
+                            >
+                              <i className="fa-solid fa-minus text-red-700" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* --------------------------------------------------------------------------------------------------------------------------- */}
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-center items-center mt-6">
-                <Button type="submit" className="w-[20%]">
-                  {isPending ? "Posting..." : "Post"}
-                </Button>
-              </div>
-            </form>
-          </FormProvider>
+                <div className="flex justify-center items-center mt-6">
+                  <Button
+                    type="submit"
+                    className="w-[20%] bg-red-700 text-white"
+                    size="lg"
+                    radius="lg"
+                  >
+                    {isPending ? "Posting..." : "Post"}
+                  </Button>
+                </div>
+              </form>
+            </FormProvider>
+          </div>
         </div>
       </DashboardContainer>
     </div>
