@@ -30,3 +30,12 @@ export const ImageFilesArrayZodSchema = z.object({
     return Object.keys(files).length > 0;
   }, 'Image is required'),
 });
+
+export const ImageFilesArrayOptionalZodSchema = z.object({
+  files: z
+    .record(z.string(), z.array(ImageFileZodSchema))
+    .refine((files) => {
+      return Object.keys(files).length > 0;
+    }, 'Image is required')
+    .optional(),
+});
