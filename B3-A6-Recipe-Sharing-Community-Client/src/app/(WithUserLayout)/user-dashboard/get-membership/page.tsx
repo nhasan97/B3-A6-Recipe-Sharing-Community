@@ -15,6 +15,9 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import "../../../../styles/carousel.css";
 
 const GetMembershipPage = () => {
   const {
@@ -53,6 +56,8 @@ const GetMembershipPage = () => {
     });
   };
 
+  const [emblaRef] = useEmblaCarousel({ loop: false }, [Autoplay()]);
+
   const title = {
     mainTitle: "Get Membership",
   };
@@ -90,22 +95,41 @@ const GetMembershipPage = () => {
                   Premium Features
                 </h1>
                 <div className="w-full space-y-1">
-                  <p>✨ Ad-Free Browsing</p>
-                  <p>✨ Exclusive Content</p>
-                  <p>✨ Advanced Filtering</p>
-
-                  {/* <p>
-                    ✨ Ad-Free Browsing – Enjoy a seamless, distraction-free
-                    experience
-                  </p>
-                  <p>
-                    ✨ Exclusive Content – Get early access to top-tier
-                    resources and guides
-                  </p>
-                  <p>
-                    ✨ Advanced Filtering – Find exactly what you need with
-                    enhanced search and filter options
-                  </p> */}
+                  <div className="embla" ref={emblaRef}>
+                    <div className="embla__container">
+                      <div className="embla__slide">
+                        <div className="text-center p-3 rounded-lg bg-[#6C6555] text-white">
+                          <h3 className="text-base font-semibold">
+                            ✨ Ad-Free Browsing
+                          </h3>
+                          <p className="text-base">
+                            Enjoy a seamless, distraction-free experience
+                          </p>
+                        </div>
+                      </div>
+                      <div className="embla__slide">
+                        <div className="text-center p-3 rounded-lg bg-[#6C6555] text-white">
+                          <h3 className="text-base font-semibold">
+                            ✨ Exclusive Content
+                          </h3>
+                          <p className="text-base">
+                            Get early access to top-tier resources and guides
+                          </p>
+                        </div>
+                      </div>
+                      <div className="embla__slide">
+                        <div className="text-center p-3 rounded-lg bg-[#6C6555] text-white">
+                          <h3 className="text-base font-semibold">
+                            ✨ Advanced Filtering
+                          </h3>
+                          <p className="text-base">
+                            Find exactly what you need with enhanced search and
+                            filter options
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
