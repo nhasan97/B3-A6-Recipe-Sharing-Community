@@ -31,8 +31,8 @@ const RecipeDetailsPage = ({ params }: { params: any }) => {
 
   return (
     <Container>
-      <div className="w-full h-[calc(100vh-64px)] grid grid-cols-1 xl:grid-cols-5 xl:gap-6 py-4">
-        <div className="w-full col-span-1 xl:col-span-3 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl">
+      <div className="w-full h-[calc(100vh-64px)] grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-6 py-4">
+        <div className="w-full col-span-1 xl:col-span-3 xl:p-3 xl:overflow-y-auto backdrop-blur-md rounded-lg xl:shadow-xl">
           <div className="w-full">
             {loadingUser || loadingRecipeData || loadingUserRatingData ? (
               <LoadingSection />
@@ -47,7 +47,7 @@ const RecipeDetailsPage = ({ params }: { params: any }) => {
           </div>
         </div>
 
-        <div className="w-full col-span-1 xl:col-span-2 p-3 overflow-y-auto backdrop-blur-md rounded-lg shadow-xl">
+        <div className="w-full col-span-1 xl:col-span-2 xl:p-3 xl:overflow-y-auto backdrop-blur-md rounded-lg xl:shadow-xl">
           <div className="w-full">
             {loadingComments ? (
               <LoadingSection />
