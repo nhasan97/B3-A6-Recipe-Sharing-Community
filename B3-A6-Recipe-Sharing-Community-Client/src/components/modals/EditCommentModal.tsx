@@ -46,7 +46,12 @@ const EditCommentModal = ({
     >
       <FXForm onSubmit={onSubmit} defaultValues={comment}>
         <FXTextarea name="comment" label="Your Comment" />
-        <Button type="submit" className="w-full my-2">
+        <Button
+          type="submit"
+          className="my-3 w-full bg-red-700 font-semibold text-white"
+          size="lg"
+          radius="lg"
+        >
           {isPending ? "Saving..." : "Save"}
         </Button>
       </FXForm>

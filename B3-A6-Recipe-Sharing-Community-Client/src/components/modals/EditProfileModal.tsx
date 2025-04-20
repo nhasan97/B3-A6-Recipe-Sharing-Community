@@ -56,7 +56,7 @@ const EditProfileModal = ({ userData }: { userData: { data: IUser } }) => {
       onSuccess: () => {
         logout();
         userLoading(true);
-        router.push("/");
+        router.push("/login");
       },
     });
   };
