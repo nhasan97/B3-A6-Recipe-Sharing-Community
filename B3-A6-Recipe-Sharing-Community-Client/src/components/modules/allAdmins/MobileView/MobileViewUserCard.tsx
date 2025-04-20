@@ -3,7 +3,6 @@
 import { useUser } from "@/src/context/user.provider";
 import { useChangeUserStatus, useDeleleUser } from "@/src/hooks/user.hook";
 import { IUser } from "@/src/types/user.type";
-import { Badge } from "@nextui-org/badge";
 import { Button } from "@nextui-org/button";
 import {
   Dropdown,
