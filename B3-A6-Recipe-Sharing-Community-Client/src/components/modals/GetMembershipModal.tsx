@@ -2,7 +2,6 @@ import React from "react";
 import FXModal from "./FXModal";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
-import { useUser } from "@/src/context/user.provider";
 
 interface IProps {
   buttonText: React.ReactNode;
@@ -29,8 +28,6 @@ const GetMembershipModal = ({
   radius,
   redirect,
 }: IProps) => {
-  const { user } = useUser();
-
   return (
     <FXModal
       title="Access to Exclusive Content"
@@ -48,12 +45,15 @@ const GetMembershipModal = ({
           className="flex-1"
           href={`/user-dashboard/get-membership?redirect=${redirect}`}
         >
-          <Button className="w-full">Get Membership</Button>
+          <Button
+            className="my-3 w-full bg-red-700 font-semibold text-white"
+            size="lg"
+            type="submit"
+            radius="lg"
+          >
+            Get Membership
+          </Button>
         </Link>
-        {/*       
-        {user?.email && <Link className="flex-1" href={`/login?redirect=${redirect}`}>
-          <Button className="w-full">Login</Button>
-        </Link> } */}
       </div>
     </FXModal>
   );

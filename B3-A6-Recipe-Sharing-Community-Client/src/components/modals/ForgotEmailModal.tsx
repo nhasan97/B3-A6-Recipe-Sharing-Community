@@ -28,7 +28,12 @@ const ForgotEmailModal = () => {
         resolver={zodResolver(forgotPasswordValidationSchema)}
       >
         <FXInput name="email" label="Your email" />
-        <Button type="submit" className="w-full my-2">
+        <Button
+          type="submit"
+          className="my-3 w-full bg-red-700 font-semibold text-white"
+          size="lg"
+          radius="lg"
+        >
           {isPending ? "Processing..." : "Proceed"}
         </Button>
       </FXForm>
