@@ -5,6 +5,7 @@ import AuthenticationModal from "../../modals/AuthenticationModal";
 import { Button } from "@nextui-org/button";
 import { useFollowUnfollowMember } from "@/src/hooks/user.hook";
 import { Spinner } from "@nextui-org/spinner";
+import { Tooltip } from "@nextui-org/tooltip";
 
 const DisplayMembersInfo = ({
   member,
@@ -48,11 +49,23 @@ const DisplayMembersInfo = ({
   return (
     <div className="w-full">
       <div className="w-full h-48 xl:h-40 flex justify-center items-center bg-[url('/assets/images/member-cover.jpg')] bg-cover bg-center bg-[#000000af] bg-blend-overlay rounded-lg">
-        <Image
-          alt="NextUI hero Image"
-          src={member?.data?.profilePhoto}
-          className="size-[200px] translate-y-[96px] xl:translate-y-[80px] border-4 border-white rounded-full shadow-lg"
-        />
+        <div>
+          <Image
+            alt="NextUI hero Image"
+            src={member?.data?.profilePhoto}
+            className="size-[200px] translate-y-[96px] xl:translate-y-[80px] border-4 border-white rounded-full shadow-lg"
+          />
+          {member?.data?.userType === "PRO" && (
+            <Tooltip content={"Premium Member"}>
+              <Image
+                src={"/assets/icons/premium-2.png"}
+                alt="Users Profile Photo"
+                className="size-[50px] mx-auto object-fill object-center bg-red-700 p-1 rounded-full translate-y-[50%]"
+                isBlurred
+              />
+            </Tooltip>
+          )}
+        </div>
       </div>
 
       <div className="w-full flex flex-col items-center gap-5 mt-28">
