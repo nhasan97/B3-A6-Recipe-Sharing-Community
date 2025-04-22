@@ -145,14 +145,38 @@ const RecipeDetails = ({
 
       {/* ----------------------------------------------------------------------------------------- */}
 
-      <ImageGallery images={recipeData?.data?.images} />
+      <p>Posted by {recipeData?.data?.user?.name}</p>
+
+      {/* ----------------------------------------------------------------------------------------- */}
+
       <div className="flex items-center gap-6">
         <Rating
-          style={{ maxWidth: 100 }}
+          style={{ maxWidth: 120 }}
           value={Math.round(recipeData?.data?.rating)}
           readOnly
         />
         <p>({userRatingData?.data?.numberOfRecipeRatings})</p>
+      </div>
+
+      {/* ----------------------------------------------------------------------------------------- */}
+
+      <ImageGallery images={recipeData?.data?.images} />
+
+      {/* ----------------------------------------------------------------------------------------- */}
+
+      <p className="w-fit bg-default-200 p-2 rounded-full">
+        Cooking Time {recipeData?.data?.cookingTime}
+      </p>
+
+      {/* ----------------------------------------------------------------------------------------- */}
+
+      <div className="space-y-4">
+        <h3 className="text-xl font-semibold">Ingredients Checklist</h3>
+        <div className="space-y-3">
+          {recipeData?.data?.ingredients?.map((ingredient: string) => (
+            <IngredientCard key={ingredient} ingredient={ingredient} />
+          ))}
+        </div>
       </div>
 
       {/* ----------------------------------------------------------------------------------------- */}
@@ -168,111 +192,129 @@ const RecipeDetails = ({
 
       {/* ----------------------------------------------------------------------------------------- */}
 
-      <div className="space-y-4">
-        <h3 className="text-xl font-semibold">Ingredients Checklist</h3>
-        <div className="space-y-3">
-          {recipeData?.data?.ingredients?.map((ingredient: string) => (
-            <IngredientCard key={ingredient} ingredient={ingredient} />
-          ))}
+      {!loggedInUser?.email ? (
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            {/* ////up Vote button//// */}
+            <AuthenticationModal
+              buttonText={
+                <div className="flex items-center gap-1">
+                  <i className="fa-solid fa-arrow-up" />
+                  {recipeData?.data?.upVote?.length}
+                </div>
+              }
+              redirect={`/`}
+            />
+
+            {/* ////down Vote button//// */}
+            <AuthenticationModal
+              buttonText={
+                <div className="flex items-center gap-1">
+                  <i className="fa-solid fa-arrow-down" />
+                  {recipeData?.data?.downVote?.length}
+                </div>
+              }
+              redirect={`/`}
+            />
+          </div>
+
+          <div>
+            {/* ////rating button//// */}
+            <AuthenticationModal
+              buttonText="Rate Recipe!"
+              buttonClassName="bg-red-700 text-white"
+              redirect={`recipe-details/${recipeData?.data?._id}`}
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="sp">
+          <div className="flex items-center gap-3">
+            {/* ////up Vote button//// */}
+            <Button
+              onClick={handleUpvote}
+              // disabled={loggedInUser?.role === "ADMIN"}
+            >
+              {pendingLikeUnlike ? (
+                <Spinner size="sm" />
+              ) : (
+                <div className="flex items-center gap-1">
+                  <i className="fa-solid fa-arrow-up" />
+                  {recipeData?.data?.upVote?.length}
+                </div>
+              )}
+            </Button>
+
+            {/* ////down Vote button//// */}
+            <Button
+              onClick={handleDownVote}
+              // disabled={loggedInUser?.role === "ADMIN"}
+            >
+              {pendingDisikeUndislike ? (
+                <Spinner size="sm" />
+              ) : (
+                <div className="flex items-center gap-1">
+                  <i className="fa-solid fa-arrow-down" />
+                  {recipeData?.data?.downVote?.length}
+                </div>
+              )}
+            </Button>
+          </div>
+
+          <div className="my-6">
+            {/* ////rating form//// */}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col items-start gap-3"
+            >
+              <div id="rating_label" className="text-xl font-semibold">
+                Rate Recipe
+              </div>
+
+              <Controller
+                control={control}
+                name="rating"
+                rules={{
+                  validate: (rating) => rating > 0,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Rating
+                    value={value}
+                    onChange={onChange}
+                    style={{ maxWidth: 220 }}
+                    visibleLabelId="rating_label"
+                    onBlur={onBlur}
+                    isDisabled={
+                      userRatingData?.data?.userAlreadyRated === 1
+                      // ||
+                      // loggedInUser?.role === "ADMIN"
+                    }
+                  />
+                )}
+              />
+
+              <Button type="submit" className="bg-red-700 text-white">
+                {pendingRating ? "Posting..." : "Post"}
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* ----------------------------------------------------------------------------------------- */}
 
-      <div className="flex items-center gap-3">
-        {/* ////up Vote button//// */}
-        {!loggedInUser?.email ? (
-          <AuthenticationModal
-            buttonText={
-              <div className="flex items-center gap-1">
-                <i className="fa-solid fa-arrow-up" />
-                {recipeData?.data?.upVote?.length}
-              </div>
-            }
-            redirect={`/`}
-          />
-        ) : (
-          <Button
-            onClick={handleUpvote}
-            // disabled={loggedInUser?.role === "ADMIN"}
-          >
-            {pendingLikeUnlike ? (
-              <Spinner size="sm" />
-            ) : (
-              <div className="flex items-center gap-1">
-                <i className="fa-solid fa-arrow-up" />
-                {recipeData?.data?.upVote?.length}
-              </div>
-            )}
-          </Button>
-        )}
-
-        {/* ////down Vote button//// */}
-
-        {!loggedInUser?.email ? (
-          <AuthenticationModal
-            buttonText={
-              <div className="flex items-center gap-1">
-                <i className="fa-solid fa-arrow-down" />
-                {recipeData?.data?.downVote?.length}
-              </div>
-            }
-            redirect={`/`}
-          />
-        ) : (
-          <Button
-            onClick={handleDownVote}
-            // disabled={loggedInUser?.role === "ADMIN"}
-          >
-            {pendingDisikeUndislike ? (
-              <Spinner size="sm" />
-            ) : (
-              <div className="flex items-center gap-1">
-                <i className="fa-solid fa-arrow-down" />
-                {recipeData?.data?.downVote?.length}
-              </div>
-            )}
-          </Button>
-        )}
-      </div>
-
-      {/* ////rating form//// */}
-
-      <div className="flex-1">
-        {!loggedInUser?.email ? (
-          <AuthenticationModal
-            buttonText="Rate Recipe!"
-            redirect={`recipe-details/${recipeData?.data?._id}`}
-          />
-        ) : (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div id="rating_label">Rate Recipe</div>
-            <Controller
-              control={control}
-              name="rating"
-              rules={{
-                validate: (rating) => rating > 0,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Rating
-                  value={value}
-                  onChange={onChange}
-                  visibleLabelId="rating_label"
-                  onBlur={onBlur}
-                  isDisabled={
-                    userRatingData?.data?.userAlreadyRated === 1
-                    // ||
-                    // loggedInUser?.role === "ADMIN"
-                  }
-                />
-              )}
-            />
-
-            <Button type="submit" className="flex-1 absolute right-2">
-              {pendingRating ? "Posting..." : "Post"}
-            </Button>
-          </form>
-        )}
+      <div className="space-y-4">
+        <h3 className="text-xl font-semibold">Tags</h3>
+        <div className="flex flex-wrap gap-3">
+          {recipeData?.data?.tags?.map((tag) => (
+            <div
+              key={tag}
+              className="px-3 py-1 bg-[#6C6555] text-white rounded-full"
+            >
+              <p>{tag}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

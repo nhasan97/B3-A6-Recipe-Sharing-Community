@@ -69,6 +69,7 @@ const CommentsSection = ({
         {!user?.email ? (
           <AuthenticationModal
             buttonText="Add Comment"
+            buttonClassName="bg-red-700 text-white"
             redirect={`recipe-details/${recipeId}`}
           />
         ) : (
@@ -77,11 +78,11 @@ const CommentsSection = ({
               <div className="flex items-center relative">
                 <FXInput name="comment" label="Your comment" />
 
-                <Button type="submit" className="absolute right-2">
+                <Button type="submit" className="group absolute right-2">
                   {isPending ? (
                     "Posting..."
                   ) : (
-                    <i className="fa-solid fa-paper-plane" />
+                    <i className="fa-solid fa-paper-plane group-hover:text-red-700" />
                   )}
                 </Button>
               </div>
