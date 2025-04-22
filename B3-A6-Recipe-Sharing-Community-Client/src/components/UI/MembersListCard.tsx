@@ -15,6 +15,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { useRouter } from "next/navigation";
+import { Tooltip } from "@nextui-org/tooltip";
 
 const MembersListCard = ({
   member,
@@ -23,7 +24,7 @@ const MembersListCard = ({
   member: IUser;
   loggedInUser: IUser;
 }) => {
-  const { _id, name, email, profilePhoto, followers } = member;
+  const { _id, name, email, profilePhoto, followers, userType } = member;
 
   // ------function for navigating to profile page----------------------------------------------------------------------------------
   const router = useRouter();
@@ -68,14 +69,29 @@ const MembersListCard = ({
     <Card className="bg-transparent border shadow-none rounded-full">
       <CardHeader className="flex justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Image
-            removeWrapper
-            alt="nextui logo"
-            height={40}
-            radius="full"
-            src={profilePhoto}
-            width={40}
-          />
+          <div className="w-fit h-fit relative">
+            <Image
+              removeWrapper
+              alt="nextui logo"
+              height={45}
+              radius="full"
+              src={profilePhoto}
+              width={45}
+            />
+
+            {userType === "PRO" && (
+              <Tooltip content={"Premium Member"}>
+                <div className="absolute right-0 bottom-0 ">
+                  <Image
+                    src={"/assets/icons/premium-2.png"}
+                    alt="Users Profile Photo"
+                    className="size-[15px] mx-auto object-fill object-center bg-red-700 rounded-full"
+                    isBlurred
+                  />
+                </div>
+              </Tooltip>
+            )}
+          </div>
 
           <p className="text-md pl-3 border-l">{name}</p>
         </div>
