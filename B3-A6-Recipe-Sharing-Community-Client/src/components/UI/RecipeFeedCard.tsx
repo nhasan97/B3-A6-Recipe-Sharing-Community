@@ -21,7 +21,8 @@ import GetMembershipModal from "../modals/GetMembershipModal";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { dateToISO } from "@/src/utils/dateToISO";
 import { IDate } from "@/src/types/date.type";
-import { CiCalendarDate } from "react-icons/ci";
+import { Tooltip } from "@nextui-org/tooltip";
+import { Image } from "@nextui-org/image";
 
 const RecipeFeedCard = ({
   recipe,
@@ -44,14 +45,13 @@ const RecipeFeedCard = ({
     downVote,
   } = recipe || {};
 
-  const { name, profilePhoto } = (user as IUser) || {};
+  const { name, profilePhoto, userType } = (user as IUser) || {};
   const { user: loggedInUser } = useUser();
 
   const dateCreated: { formattedDate: string; formattedTime: string } =
     dateToISO(createdAt as IDate);
 
-  const { isLoading: loadingUserRatingData, data: userRatingData } =
-    useGetUsersRating(_id as string);
+  const { data: userRatingData } = useGetUsersRating(_id as string);
 
   /*
   
@@ -132,7 +132,28 @@ const RecipeFeedCard = ({
         <div className="flex items-center justify-between border-b border-default-200 pb-4">
           <div className="w-full flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <Avatar isBordered name={name} radius="sm" src={profilePhoto} />
+              <div className="w-fit h-fit relative">
+                <Avatar
+                  isBordered
+                  name={name}
+                  radius="sm"
+                  src={profilePhoto}
+                  size="lg"
+                />
+
+                {userType === "PRO" && (
+                  <Tooltip content={"Premium Member"}>
+                    <div className="absolute right-0 bottom-0 translate-x-2 translate-y-2">
+                      <Image
+                        src={"/assets/icons/premium-2.png"}
+                        alt="Users Profile Photo"
+                        className="size-[20px] mx-auto object-fill object-center bg-red-700 rounded-full"
+                        isBlurred
+                      />
+                    </div>
+                  </Tooltip>
+                )}
+              </div>
               <p>{name}</p>
             </div>
 
@@ -180,7 +201,7 @@ const RecipeFeedCard = ({
 
         {/* -----division 4: Up vote , down vote and details buttons------------------------------------------------------------------------------------------------------- */}
 
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between items-center mt-4">
           <div className="flex items-center gap-3">
             {/* ////up Vote button//// */}
             {!loggedInUser?.email ? (
@@ -202,7 +223,11 @@ const RecipeFeedCard = ({
                   <Spinner size="sm" />
                 ) : (
                   <div
-                    className={`flex items-center gap-1 ${upVote?.includes(loggedInUser?._id as string) ? "text-green-700" : ""}`}
+                    className={`flex items-center gap-1 ${
+                      upVote?.includes(loggedInUser?._id as string)
+                        ? "text-green-700"
+                        : ""
+                    }`}
                   >
                     <i className="fa-solid fa-arrow-up" />
                     {upVote?.length}
@@ -232,7 +257,11 @@ const RecipeFeedCard = ({
                   <Spinner size="sm" />
                 ) : (
                   <div
-                    className={`flex items-center gap-1 ${downVote?.includes(loggedInUser?._id as string) ? "text-red-700" : ""}`}
+                    className={`flex items-center gap-1 ${
+                      downVote?.includes(loggedInUser?._id as string)
+                        ? "text-red-700"
+                        : ""
+                    }`}
                   >
                     <i className="fa-solid fa-arrow-down" />
                     {downVote?.length}
@@ -244,7 +273,7 @@ const RecipeFeedCard = ({
 
           {/* ////view details button//// */}
 
-          <div>
+          <div className="w-full sm:w-fit">
             {contentType === "Exclusive" &&
             ((loggedInUser?.role === "USER" &&
               loggedInUser?.userType === "NORMAL" &&
@@ -252,14 +281,17 @@ const RecipeFeedCard = ({
               !loggedInUser?.email) ? (
               <GetMembershipModal
                 buttonText={<i className="fa-solid fa-info" />}
-                buttonClassName="text-tiny text-white bg-black/20"
+                buttonClassName="my-3 w-full sm:w-fit bg-black/20"
                 buttonVariant="flat"
-                buttonSize="sm"
+                buttonSize="md"
                 radius="full"
               />
             ) : (
               <Link href={`/recipe-details/${_id}`}>
-                <Button>
+                <Button
+                  className="my-3 w-full mx-auto sm:w-fit bg-red-700 font-semibold text-white"
+                  radius="md"
+                >
                   <i className="fa-regular fa-eye" /> View Details
                 </Button>
               </Link>
