@@ -104,10 +104,6 @@ const updateRecipeStatus = catchAsync(async (req, res) => {
 });
 
 const updateRecipe = catchAsync(async (req, res) => {
-  // if (!req.files) {
-  //   throw new AppError(400, 'Please upload an image');
-  // }
-
   const recipe = await RecipeServices.updateRecipeIntoDB(
     req.params.id,
     req.body,
