@@ -23,7 +23,7 @@ export type TRecipeUpdate = {
   instruction: string;
   ingredients: string[];
   cookingTime: string;
-  images?: string[] | null | undefined;
+  images?: string[];
   category: string;
   contentType: keyof typeof CONTENT_TYPE;
   tags?: string[];
