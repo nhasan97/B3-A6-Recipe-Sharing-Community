@@ -19,6 +19,7 @@ import GetMembershipModal from "../modals/GetMembershipModal";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "@nextui-org/tooltip";
 import { MdUnpublished } from "react-icons/md";
+import { useRecipeProvider } from "@/src/context/recipes.providers";
 
 const MembersRecipeCard = ({
   recipe,
@@ -40,6 +41,7 @@ const MembersRecipeCard = ({
   } = recipe || {};
 
   const { isLoading: loadingUser, user: loggedInUser } = useUser();
+  const { refetchUsersRecipes } = useRecipeProvider();
 
   // -----------------------------------------------------------------------------------
 
@@ -90,9 +92,12 @@ const MembersRecipeCard = ({
           label: "Yes, delete recipe.",
           onClick: () => {
             try {
-              deleteRecipe({
-                recipeId: _id as string,
-              });
+              deleteRecipe(
+                {
+                  recipeId: _id as string,
+                },
+                { onSuccess: () => refetchUsersRecipes() }
+              );
             } catch (err: any) {
               toast.error(err.data.message, { duration: 2000 });
             }
