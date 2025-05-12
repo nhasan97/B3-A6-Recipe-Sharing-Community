@@ -4,14 +4,15 @@ import FXForm from "@/src/components/form/FXForm";
 import FXInput from "@/src/components/form/FXInput";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import loginValidationSchema from "@/src/schemas/login.schema";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useUserLogin } from "@/src/hooks/auth.hook";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/src/context/user.provider";
 import ForgotEmailModal from "@/src/components/modals/ForgotEmailModal";
+import { Input } from "@nextui-org/input";
 
 const LoginPage = () => {
   const searchParams = useSearchParams();
@@ -23,6 +24,8 @@ const LoginPage = () => {
   const redirect = searchParams.get("redirect");
 
   const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
+
+  const { register, handleSubmit, setValue, reset } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     handleUserLogin(data);
@@ -45,20 +48,68 @@ const LoginPage = () => {
         <h3 className="my-2 text-2xl font-bold">Login</h3>
         <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
 
-        <FXForm
+        <div className="border-2 border-default-200 rounded-xl p-3 space-y-3">
+          <h2 className="text-xs text-red-500">Only for testing purpose</h2>
+          <h3 className="text-sm">
+            Select a role and credentials will be generated automatically
+          </h3>
+          <div className="w-full flex justify-between items-center">
+            <Button
+              className="bg-red-700 text-white"
+              onClick={() => {
+                setValue("email", "admin@gmail.com");
+                setValue("password", "123456");
+              }}
+            >
+              Admin
+            </Button>
+            <Button
+              className="bg-red-700 text-white"
+              onClick={() => {
+                setValue("email", "n@yahoo.com");
+                setValue("password", "123456");
+              }}
+            >
+              PRO User
+            </Button>
+
+            <Button
+              className="bg-red-700 text-white"
+              onClick={() => {
+                setValue("email", "b@gmail.com");
+                setValue("password", "123456");
+              }}
+            >
+              Normal User
+            </Button>
+          </div>
+        </div>
+
+        <form
           //! Only for development
-          defaultValues={{
-            email: "n@yahoo.com",
-            password: "123456",
-          }}
-          onSubmit={onSubmit}
-          resolver={zodResolver(loginValidationSchema)}
+          // defaultValues={defaultValues}
+          onSubmit={handleSubmit(onSubmit)}
+          // resolver={zodResolver(loginValidationSchema)}
         >
           <div className="py-3">
-            <FXInput name="email" label="Email" type="email" />
+            <input
+              {...register("email")}
+              required
+              type="email"
+              placeholder="Email"
+              className="w-full bg-transparent border-2 border-default-200 rounded-xl p-3 space-y-3"
+            />
+            {/* <FXInput name="email" label="Email" type="email" /> */}
           </div>
           <div className="py-3">
-            <FXInput name="password" label="Password" type="password" />
+            <input
+              {...register("password")}
+              required
+              type="password"
+              placeholder="Password"
+              className="w-full bg-transparent border-2 border-default-200 rounded-xl p-3 space-y-3"
+            />
+            {/* <FXInput name="password" label="Password" type="password" /> */}
           </div>
 
           <Button
@@ -69,7 +120,7 @@ const LoginPage = () => {
           >
             {isPending ? "Logging In..." : "Login"}
           </Button>
-        </FXForm>
+        </form>
 
         <div className="text-center my-2">
           <ForgotEmailModal />

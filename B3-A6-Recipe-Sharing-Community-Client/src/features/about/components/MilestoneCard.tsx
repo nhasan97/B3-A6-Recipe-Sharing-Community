@@ -1,24 +1,24 @@
 import { Image } from "@nextui-org/image";
 import React from "react";
+import { TMilestone } from "../types";
 
 const MilestoneCard = ({
   milestone,
   flexclass,
   imageJustifyclass,
 }: {
-  milestone: {
-    milestoneName: string;
-    milestoneDescription: string;
-    milestoneCardIcon: string;
-    lineImage: string;
-  };
+  milestone: TMilestone;
   flexclass: string;
   imageJustifyclass: string;
 }) => {
   return (
     <div className={`flex ${flexclass}`}>
       <div className={`w-1/2 flex ${imageJustifyclass} pt-14`}>
-        <Image removeWrapper src={milestone?.lineImage} alt="" className="" />
+        <Image
+          removeWrapper
+          src={milestone?.lineImage || "No Image Found"}
+          alt="Mile Stone Image"
+        />
       </div>
 
       <div className="w-1/2">
@@ -26,6 +26,7 @@ const MilestoneCard = ({
           <div className="flex items-center gap-2">
             <i
               className={`${milestone.milestoneCardIcon} text-red-700 text-2xl `}
+              aria-hidden="true"
             />
             <h3 className="text-[#303030] font-medium">
               {milestone.milestoneName}

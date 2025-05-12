@@ -1,4 +1,4 @@
-import { TTeamMemberProp } from "@/src/types/team.type";
+import { TTeamMemberProp } from "@/src/features/about/types/team.type";
 import { Image } from "@nextui-org/image";
 
 const TeamCard = ({ member }: TTeamMemberProp) => {
@@ -25,9 +25,18 @@ const TeamCard = ({ member }: TTeamMemberProp) => {
         </p>
       </div>
       <div className="w-3/4 mx-auto flex justify-center items-center gap-6 p-3 bg-red-700 translate-y-[50%] rounded-full">
-        <i className="fa-brands fa-facebook hover:scale-125 hover:transition-all" />
-        <i className="fa-brands fa-square-instagram hover:scale-125 hover:transition-all" />
-        <i className="fa-brands fa-discord hover:scale-125 hover:transition-all" />
+        <i
+          className="fa-brands fa-facebook hover:scale-125 hover:transition-all"
+          aria-hidden="true"
+        />
+        <i
+          className="fa-brands fa-square-instagram hover:scale-125 hover:transition-all"
+          aria-hidden="true"
+        />
+        <i
+          className="fa-brands fa-discord hover:scale-125 hover:transition-all"
+          aria-hidden="true"
+        />
       </div>
     </div>
   );

@@ -28,7 +28,8 @@ const FXTextarea = ({
       required={required}
       type={type}
       label={label}
-      minRows={6}
+      minRows={3}
+      maxRows={6}
     />
   );
 };
