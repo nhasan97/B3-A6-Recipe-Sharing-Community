@@ -1,4 +1,4 @@
-import { Navbar } from "@/src/components/UI/Navbar/navbar";
+import { Navbar } from "@/src/components/layouts/Navbar/navbar";
 import { TChildren } from "@/src/types/children.type";
 import React from "react";
 

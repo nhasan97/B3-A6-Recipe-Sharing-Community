@@ -8,10 +8,25 @@ import AdminSideBarMenu from "./AdminSideBarMenu";
 import MainLogo from "../../shared/MainLogo";
 import { Image } from "@nextui-org/image";
 import { IUser } from "@/src/types/user.type";
+import { Button } from "@nextui-org/button";
+import { logout } from "@/src/services/AuthService";
+import { protectedRoutes } from "@/src/constant";
+import { usePathname, useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
-  const { user } = useUser();
+  const { user, setIsLoading: userLoading } = useUser();
+  const router = useRouter();
+  const pathName = usePathname();
+
+  const handleLogout = () => {
+    logout();
+    userLoading(true);
+
+    if (protectedRoutes.some((route) => pathName.match(route))) {
+      router.push("/");
+    }
+  };
 
   return (
     <div>
@@ -44,9 +59,26 @@ const Sidebar = () => {
 
             {/* <div className="size-6 bg-green-700 border-4 border-white rounded-full absolute right-0 bottom-2" /> */}
           </div>
-          <h1 className="normal-case text-xl sm:text-2xl text-white font-medium">
-            {user?.name}
-          </h1>
+
+          <div className="text-center">
+            <h1 className="normal-case text-xl sm:text-2xl text-white font-medium">
+              {user?.name}
+            </h1>
+
+            {user?.userType === "PRO" && (
+              <div className="flex items-center gap-1 text-white text-sm">
+                (
+                <Image
+                  src={"/assets/icons/premium-2.png"}
+                  alt="Users Profile Photo"
+                  className="size-[20px] mx-auto object-fill object-center"
+                  isBlurred
+                />
+                <p>Premium User</p>)
+              </div>
+            )}
+          </div>
+
           <p className="normal-case text-base sm:text-lg text-[#949494]">
             {user?.email}
           </p>
@@ -58,6 +90,12 @@ const Sidebar = () => {
           ) : (
             <UserSideBarMenu user={user as IUser} />
           )}
+        </div>
+
+        <div className="flex justify-center">
+          <Button className="w-3/4" onClick={handleLogout}>
+            Logout <i className="fa-solid fa-right-from-bracket" />
+          </Button>
         </div>
       </div>
     </div>

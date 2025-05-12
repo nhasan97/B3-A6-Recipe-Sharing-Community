@@ -46,7 +46,11 @@ export const Navbar = () => {
   };
 
   return (
-    <NextUINavbar maxWidth="xl" shouldHideOnScroll>
+    <NextUINavbar
+      maxWidth="2xl"
+      shouldHideOnScroll
+      className="px-5 md:px-8 lg:px-10"
+    >
       {/*  -------------------------- Pc,Tab and small device view --------------------------  */}
 
       {/* first half of navbar conating brand logo and links */}
@@ -100,10 +104,7 @@ export const Navbar = () => {
         </NavbarItem>
         <NavbarItem className="hidden sm:flex gap-2">
           {user?.email ? (
-           
-
-              <NavbarDropDown />
-           
+            <NavbarDropDown />
           ) : (
             <Link href="/login">
               <Button>Login</Button>
@@ -141,34 +142,33 @@ export const Navbar = () => {
 
           {user ? (
             <>
-            <NavbarMenuItem key={dashboardLink.href}>
-              <Link
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href={dashboardLink.href}
-                size="lg"
+              <NavbarMenuItem key={dashboardLink.href}>
+                <Link
+                  className={clsx(
+                    linkStyles({ color: "foreground" }),
+                    "data-[active=true]:text-primary data-[active=true]:font-medium"
+                  )}
+                  color="foreground"
+                  href={dashboardLink.href}
+                  size="lg"
+                >
+                  {dashboardLink.label}
+                </Link>
+              </NavbarMenuItem>
+
+              <NavbarMenuItem
+                key="logout"
+                className="text-danger"
+                onClick={() => handleLogout()}
               >
-                {dashboardLink.label}
-              </Link>
+                Logout
+              </NavbarMenuItem>
+            </>
+          ) : (
+            <NavbarMenuItem key="login">
+              <Link href="/login">Login</Link>
             </NavbarMenuItem>
-
-            <NavbarMenuItem   key="logout"
-          className="text-danger"
-          
-          onClick={() => handleLogout()} >
-           Logout
-            </NavbarMenuItem></>
-          ):  
-          <NavbarMenuItem key='login'>
-          <Link href="/login">
-          Login
-        </Link>
-        </NavbarMenuItem>
-        }
-
+          )}
         </div>
       </NavbarMenu>
     </NextUINavbar>
