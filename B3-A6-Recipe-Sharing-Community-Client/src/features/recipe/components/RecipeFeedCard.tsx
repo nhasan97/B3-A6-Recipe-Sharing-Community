@@ -3,26 +3,25 @@
 import { useUser } from "@/src/context/user.provider";
 import { Avatar } from "@nextui-org/avatar";
 import React, { useEffect, useState } from "react";
-import ImageGallery from "./ImageGallery";
+import ImageGallery from "../../../components/UI/ImageGallery";
 import { Button } from "@nextui-org/button";
-import { IRecipe } from "@/src/types/recipe.type";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
 import { IUser } from "@/src/types/user.type";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Link } from "@nextui-org/link";
-import {
-  useDisikeUndislikeRecipe,
-  useLikeUnlikeRecipe,
-} from "@/src/hooks/recipe.hook";
+
 import { Spinner } from "@nextui-org/spinner";
-import AuthenticationModal from "../modals/AuthenticationModal";
+import AuthenticationModal from "../../../components/modals/AuthenticationModal";
 import { useGetUsersRating } from "@/src/hooks/rating.hook";
-import GetMembershipModal from "../modals/GetMembershipModal";
+import GetMembershipModal from "../../../components/modals/GetMembershipModal";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { dateToISO } from "@/src/utils/dateToISO";
 import { IDate } from "@/src/types/date.type";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Image } from "@nextui-org/image";
+import { useLikeUnlikeRecipe } from "../hooks/likeUnlikeRecipeHook";
+import { useDisikeUndislikeRecipe } from "../hooks/disikeUndislikeRecipeHook";
 
 const RecipeFeedCard = ({
   recipe,

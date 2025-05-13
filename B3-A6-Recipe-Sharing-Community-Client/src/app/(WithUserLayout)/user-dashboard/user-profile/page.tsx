@@ -5,7 +5,7 @@ import MobileView from "@/src/components/modules/profile/MobileView";
 import TabPCView from "@/src/components/modules/profile/TabPCView";
 import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
 import LoadingSection from "@/src/components/shared/LoadingSection";
-import { useGetUsersRecipeCount } from "@/src/hooks/recipe.hook";
+import { useGetUsersRecipeCount } from "@/src/features/recipe/hooks/getUsersRecipeCountHook";
 import { useGetLoggedInUserProfile } from "@/src/hooks/user.hook";
 import React from "react";
 

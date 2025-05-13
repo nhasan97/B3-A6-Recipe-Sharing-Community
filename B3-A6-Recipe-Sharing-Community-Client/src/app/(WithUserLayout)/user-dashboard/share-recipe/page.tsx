@@ -1,14 +1,13 @@
 "use client";
 
-import FXInput from "@/src/components/form/FXInput";
-import FXSelect from "@/src/components/form/FXSelect";
+import FXInput from "@/src/components/UI/form/FXInput";
+import FXSelect from "@/src/components/UI/form/FXSelect";
 import DashboardContainer from "@/src/components/layouts/DashboardContainer";
 import {
   categoryOptions,
   contentTypeOptions,
 } from "@/src/constants/recipe.constants";
 import { useUser } from "@/src/context/user.provider";
-import { useShareRecipe } from "@/src/hooks/recipe.hook";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import React, { useState } from "react";
@@ -20,10 +19,11 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
 import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
 import "../../../../styles/jodit.css";
 import dynamic from "next/dynamic";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
+import { useShareRecipe } from "@/src/features/recipe/hooks/shareRecipeHook";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false }) as any;
 

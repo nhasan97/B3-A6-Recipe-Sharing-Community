@@ -1,7 +1,6 @@
 "use server";
 
 import axiosInstance from "@/src/lib/AxiosInstance";
-import { revalidateTag } from "next/cache";
 
 export const updateRecipe = async ({
   recipeId,
@@ -21,10 +20,10 @@ export const updateRecipe = async ({
       }
     );
 
-    revalidateTag("recipes");
-
     return data;
   } catch (error: any) {
-    throw new Error(`Failed to update recipe ${error.message}`);
+    throw new Error(
+      `Failed to update recipe ${error?.response?.data?.message}`
+    );
   }
 };

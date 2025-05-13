@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import Container from "@/src/components/layouts/Container";
-import RecipeFeed from "@/src/components/modules/home/RecipeFeed";
 import { useUser } from "@/src/context/user.provider";
 import { useGetActiveUsers } from "@/src/hooks/user.hook";
 import LoadingSection from "@/src/components/shared/LoadingSection";
 import categories from "../../../../public/data/category.json";
 import CategoryList from "@/src/features/category/CategoryList";
 import Head from "next/head";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
 import Browser from "@/src/components/shared/Browser";
 import { IUser } from "@/src/types/user.type";
 import "../../../styles/textPreview.css";
@@ -18,6 +16,8 @@ import { BiSolidCategory } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import MembersList from "@/src/features/follow/MembersList";
+import RecipeFeed from "@/src/features/recipe/components/RecipeFeed";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
 
 const Home = () => {
   const { user, isLoading: loadingUser } = useUser();

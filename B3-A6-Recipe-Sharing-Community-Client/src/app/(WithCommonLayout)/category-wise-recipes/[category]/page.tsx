@@ -4,12 +4,12 @@ import Container from "@/src/components/layouts/Container";
 import Browser from "@/src/components/shared/Browser";
 import LoadingSection from "@/src/components/shared/LoadingSection";
 import NoData from "@/src/components/shared/NoData";
-import DisplayRecipes from "@/src/components/UI/DisplayRecipes";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
+import DisplayRecipes from "@/src/features/recipe/components/DisplayRecipes";
 import Head from "next/head";
 import React, { useEffect } from "react";
 import categories from "../../../../../public/data/category.json";
 import "../../../../styles/categoryWisePage.css";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
 
 const CategoryWiseRecipePage = ({ params }: { params: any }) => {
   const { loadingUser, loggedInUser, setCategory, loadingRecipes, recipeData } =

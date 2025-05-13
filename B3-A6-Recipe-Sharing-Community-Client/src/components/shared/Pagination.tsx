@@ -2,10 +2,10 @@
 
 import "../../styles/pagination.css";
 import React from "react";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
 import { Button } from "@nextui-org/button";
 import { Select, SelectItem } from "@nextui-org/select";
 import { GrPrevious, GrNext } from "react-icons/gr";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
 
 const Pagination = ({ caller }: { caller: string }) => {
   const {

@@ -1,16 +1,15 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { IRecipeContext } from "../types/recipe.type";
+
 import React from "react";
-import { TChildren } from "../types/children.type";
-import { useUser } from "./user.provider";
-import {
-  useGetRecipeCount,
-  useGetRecipes,
-  useGetUsersRecipeCount,
-  useGetUsersRecipes,
-} from "../hooks/recipe.hook";
+import { IRecipeContext } from "../types/recipe.type";
+import { TChildren } from "@/src/types/children.type";
+import { useUser } from "@/src/context/user.provider";
+import { useGetRecipeCount } from "../hooks/getRecipeCountHook";
+import { useGetUsersRecipeCount } from "../hooks/getUsersRecipeCountHook";
+import { useGetRecipes } from "../hooks/getRecipesHook";
+import { useGetUsersRecipes } from "../hooks/getUsersRecipesHook";
 
 const RecipeContext = createContext<IRecipeContext | undefined>(undefined);
 
@@ -47,17 +46,20 @@ const RecipeProvider = ({ children }: TChildren) => {
   );
 
   //retrieving user specific recipes
-  const { isLoading: loadingUsersRecipes, data: loadedUsersRecipeData } =
-    useGetUsersRecipes(
-      loggedInUser?._id as string,
-      loggedInUser?.email,
-      searchTerm,
-      category,
-      contentType,
-      sort,
-      currentPage,
-      itemsPerPage
-    );
+  const {
+    isLoading: loadingUsersRecipes,
+    data: loadedUsersRecipeData,
+    refetch: refetchUsersRecipes,
+  } = useGetUsersRecipes(
+    loggedInUser?._id as string,
+    loggedInUser?.email,
+    searchTerm,
+    category,
+    contentType,
+    sort,
+    currentPage,
+    itemsPerPage
+  );
 
   const resetBrowser = () => {
     setSearchTerm("");
@@ -97,6 +99,7 @@ const RecipeProvider = ({ children }: TChildren) => {
     refetchAllRecipes,
     loadingUsersRecipes,
     usersRecipeData: loadedUsersRecipeData?.data,
+    refetchUsersRecipes,
     resetBrowser,
     resetPagination,
   };

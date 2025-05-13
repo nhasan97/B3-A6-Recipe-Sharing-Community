@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import FXModal from "./FXModal";
 import { Button } from "@nextui-org/button";
 import {
   FieldValues,
@@ -9,10 +8,11 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { IRecipe } from "@/src/types/recipe.type";
-import { useUpdateRecipe } from "@/src/hooks/recipe.hook";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
-import EditRecipeFields from "../form/EditRecipeFields";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
+import FXModal from "@/src/components/UI/FXModal";
+import EditRecipeFields from "./EditRecipeFields";
+import { useRecipeProvider } from "../contexts/recipes.providers";
+import { useUpdateRecipe } from "../hooks/updateRecipeHook";
 
 const EditRecipeModal = ({ recipe }: { recipe: IRecipe }) => {
   const { refetchUsersRecipes } = useRecipeProvider();

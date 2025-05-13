@@ -1,6 +1,5 @@
 import React from "react";
-import FXInput from "./FXInput";
-import FXSelect from "./FXSelect";
+
 import {
   categoryOptions,
   contentTypeOptions,
@@ -8,9 +7,11 @@ import {
 import { Divider } from "@nextui-org/divider";
 import { Button } from "@nextui-org/button";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
-import "../../styles/jodit.css";
+import "../../../styles/jodit.css";
 import dynamic from "next/dynamic";
-import { IRecipe } from "@/src/types/recipe.type";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
+import FXInput from "@/src/components/UI/form/FXInput";
+import FXSelect from "@/src/components/UI/form/FXSelect";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false }) as any;
 

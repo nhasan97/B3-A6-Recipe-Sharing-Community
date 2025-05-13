@@ -5,7 +5,8 @@ import MobileView from "@/src/components/modules/profile/MobileView";
 import TabPCView from "@/src/components/modules/profile/TabPCView";
 import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
 import LoadingSection from "@/src/components/shared/LoadingSection";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
+
 import {
   useGetLoggedInUserProfile,
   useGetUsersCount,

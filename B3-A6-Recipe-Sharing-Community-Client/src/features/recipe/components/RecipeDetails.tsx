@@ -1,15 +1,12 @@
 "use client";
 
-import { IRecipe } from "@/src/types/recipe.type";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
 import React, { useEffect, useState } from "react";
-import ImageGallery from "../../UI/ImageGallery";
-import IngredientCard from "../../UI/IngredientCard";
+import ImageGallery from "../../../components/UI/ImageGallery";
+import IngredientCard from "./IngredientCard";
 import { Button } from "@nextui-org/button";
-import AuthenticationModal from "../../modals/AuthenticationModal";
-import {
-  useDisikeUndislikeRecipe,
-  useLikeUnlikeRecipe,
-} from "@/src/hooks/recipe.hook";
+import AuthenticationModal from "../../../components/modals/AuthenticationModal";
+
 import { Spinner } from "@nextui-org/spinner";
 import {
   Controller,
@@ -23,6 +20,8 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { IUser } from "@/src/types/user.type";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { useLikeUnlikeRecipe } from "../hooks/likeUnlikeRecipeHook";
+import { useDisikeUndislikeRecipe } from "../hooks/disikeUndislikeRecipeHook";
 
 const RecipeDetails = ({
   recipeData,

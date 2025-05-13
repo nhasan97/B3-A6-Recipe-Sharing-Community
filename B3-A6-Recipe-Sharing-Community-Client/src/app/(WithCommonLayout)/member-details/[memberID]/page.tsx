@@ -4,7 +4,7 @@ import Container from "@/src/components/layouts/Container";
 import DisplayMembersInfo from "@/src/components/modules/member-details/DisplayMembersInfo";
 import LoadingSection from "@/src/components/shared/LoadingSection";
 import NoData from "@/src/components/shared/NoData";
-import DisplayRecipes from "@/src/components/UI/DisplayRecipes";
+import DisplayRecipes from "@/src/features/recipe/components/DisplayRecipes";
 import { useUser } from "@/src/context/user.provider";
 import {
   useGetUsersRecipeCount,

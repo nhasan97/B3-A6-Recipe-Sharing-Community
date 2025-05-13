@@ -8,7 +8,7 @@ import { ProvidersProps } from "@/src/types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserProvider from "@/src/context/user.provider";
 import { Toaster } from "sonner";
-import RecipeProvider from "@/src/context/recipes.providers";
+import RecipeProvider from "@/src/features/recipe/contexts/recipes.providers";
 
 // Create a client
 const queryClient = new QueryClient();

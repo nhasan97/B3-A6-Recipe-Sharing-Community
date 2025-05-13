@@ -1,9 +1,9 @@
 import React from "react";
-import RecipeFeedCard from "../../UI/RecipeFeedCard";
-import { IRecipe } from "@/src/types/recipe.type";
-import NoData from "../../shared/NoData";
+import RecipeFeedCard from "../../../features/recipe/components/RecipeFeedCard";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import NoData from "@/src/components/shared/NoData";
 
 const RecipeFeed = ({
   recipeData,

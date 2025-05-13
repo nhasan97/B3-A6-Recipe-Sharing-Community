@@ -1,4 +1,4 @@
-import { IRecipe } from "@/src/types/recipe.type";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
 import React from "react";
 import MembersRecipeCard from "./MembersRecipeCard";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import "../../styles/textPreview.css";
-import { IRecipe } from "@/src/types/recipe.type";
+import "../../../styles/textPreview.css";
+import { IRecipe } from "@/src/features/recipe/types/recipe.type";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import React from "react";
@@ -9,17 +9,16 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useUser } from "@/src/context/user.provider";
 import { toast } from "sonner";
-import {
-  useChangeRecipeStatus,
-  useDeleteRecipe,
-} from "@/src/hooks/recipe.hook";
-import EditRecipeModal from "../modals/EditRecipeModal";
+
 import { Spinner } from "@nextui-org/spinner";
-import GetMembershipModal from "../modals/GetMembershipModal";
+import GetMembershipModal from "../../../components/modals/GetMembershipModal";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "@nextui-org/tooltip";
 import { MdUnpublished } from "react-icons/md";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
+import EditRecipeModal from "./EditRecipeModal";
+import { useRecipeProvider } from "../contexts/recipes.providers";
+import { useChangeRecipeStatus } from "../hooks/changeRecipeStatusHook";
+import { useDeleteRecipe } from "../hooks/deleteRecipeHook";
 
 const MembersRecipeCard = ({
   recipe,

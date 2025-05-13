@@ -1,6 +1,6 @@
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
-import { IDate } from "./date.type";
-import { IUser } from "./user.type";
+import { IDate } from "../../../types/date.type";
+import { IUser } from "../../../types/user.type";
 
 export const RECIPE_STATUS = {
   PUBLISHED: "PUBLISHED",

@@ -6,9 +6,9 @@ import Browser from "@/src/components/shared/Browser";
 import LoadingSection from "@/src/components/shared/LoadingSection";
 import NoData from "@/src/components/shared/NoData";
 import Pagination from "@/src/components/shared/Pagination";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
-import DisplayRecipes from "@/src/components/UI/DisplayRecipes";
+import DisplayRecipes from "@/src/features/recipe/components/DisplayRecipes";
 import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
 
 const AllRecipesPage = () => {
   const {

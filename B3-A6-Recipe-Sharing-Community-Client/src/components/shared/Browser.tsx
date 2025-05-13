@@ -5,7 +5,8 @@ import {
   contentTypeOptions,
   sortOptions,
 } from "@/src/constants/recipe.constants";
-import { useRecipeProvider } from "@/src/context/recipes.providers";
+import { useRecipeProvider } from "@/src/features/recipe/contexts/recipes.providers";
+
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Select, SelectItem } from "@nextui-org/select";

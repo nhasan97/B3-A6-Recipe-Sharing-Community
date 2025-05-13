@@ -2,14 +2,14 @@
 
 import Container from "@/src/components/layouts/Container";
 import CommentsSection from "@/src/components/modules/recipeDetailsPage/CommentsSection";
-import RecipeDetails from "@/src/components/modules/recipeDetailsPage/RecipeDetails";
+import RecipeDetails from "@/src/features/recipe/components/RecipeDetails";
 import LoadingSection from "@/src/components/shared/LoadingSection";
 import { useUser } from "@/src/context/user.provider";
 import { useGetComments } from "@/src/hooks/comment.hook";
 import { useGetUsersRating } from "@/src/hooks/rating.hook";
-import { useGetSingleRecipe } from "@/src/hooks/recipe.hook";
 import { IUser } from "@/src/types/user.type";
 import React from "react";
+import { useGetSingleRecipe } from "@/src/features/recipe/hooks/getSingleRecipeHook";
 
 const RecipeDetailsPage = ({ params }: { params: any }) => {
   const { isLoading: loadingUser, user: loggedInUser } = useUser();

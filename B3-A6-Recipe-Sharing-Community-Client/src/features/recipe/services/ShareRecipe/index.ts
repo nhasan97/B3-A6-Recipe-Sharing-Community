@@ -1,7 +1,6 @@
 "use server";
 
 import axiosInstance from "@/src/lib/AxiosInstance";
-import { revalidateTag } from "next/cache";
 
 export const shareRecipe = async (formData: FormData) => {
   try {
@@ -11,10 +10,10 @@ export const shareRecipe = async (formData: FormData) => {
       },
     });
 
-    revalidateTag("recipes");
-
     return data;
   } catch (error: any) {
-    throw new Error(`Failed to create recipe ${error.message}`);
+    throw new Error(
+      `Failed to create recipe ${error?.response?.data?.message}`
+    );
   }
 };
