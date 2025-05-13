@@ -1,4 +1,4 @@
-import Sidebar from "@/src/components/UI/SideBar/Sidebar";
+import Sidebar from "@/src/components/layouts/SideBar/Sidebar";
 import { TChildren } from "@/src/types/children.type";
 import React from "react";
 

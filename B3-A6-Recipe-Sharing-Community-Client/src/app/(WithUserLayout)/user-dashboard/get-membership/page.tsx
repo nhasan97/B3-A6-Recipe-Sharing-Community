@@ -1,7 +1,7 @@
 "use client";
 
-import FXForm from "@/src/components/form/FXForm";
-import FXInput from "@/src/components/form/FXInput";
+import FXForm from "@/src/components/UI/form/FXForm";
+import FXInput from "@/src/components/UI/form/FXInput";
 import DashboardContainer from "@/src/components/layouts/DashboardContainer";
 import DashboardPageTitle from "@/src/components/shared/DashboardPageTitle";
 import LoadingSection from "@/src/components/shared/LoadingSection";

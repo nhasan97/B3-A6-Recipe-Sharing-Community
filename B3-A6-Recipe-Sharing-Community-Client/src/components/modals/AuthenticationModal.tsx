@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
-import FXModal from "./FXModal";
+import FXModal from "../UI/FXModal";
 
 interface IProps {
   buttonText: string | React.ReactNode;

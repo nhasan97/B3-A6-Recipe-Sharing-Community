@@ -1,10 +1,10 @@
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import FXModal from "./FXModal";
-import FXForm from "../form/FXForm";
+import FXModal from "../UI/FXModal";
+import FXForm from "../UI/form/FXForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import registerValidationSchema from "@/src/schemas/register.schema";
-import FXInput from "../form/FXInput";
+import FXInput from "../UI/form/FXInput";
 import { Button } from "@nextui-org/button";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { useAddAdmin } from "@/src/hooks/user.hook";

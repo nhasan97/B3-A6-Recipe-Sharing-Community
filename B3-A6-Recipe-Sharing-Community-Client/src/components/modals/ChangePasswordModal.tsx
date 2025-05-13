@@ -1,7 +1,7 @@
 import React from "react";
-import FXModal from "./FXModal";
-import FXForm from "../form/FXForm";
-import FXInput from "../form/FXInput";
+import FXModal from "../UI/FXModal";
+import FXForm from "../UI/form/FXForm";
+import FXInput from "../UI/form/FXInput";
 import { Button } from "@nextui-org/button";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useChangePassword } from "@/src/hooks/user.hook";

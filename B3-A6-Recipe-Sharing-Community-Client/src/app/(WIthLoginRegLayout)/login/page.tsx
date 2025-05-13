@@ -1,7 +1,7 @@
 "use client";
 
-import FXForm from "@/src/components/form/FXForm";
-import FXInput from "@/src/components/form/FXInput";
+import FXForm from "@/src/components/UI/form/FXForm";
+import FXInput from "@/src/components/UI/form/FXInput";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";

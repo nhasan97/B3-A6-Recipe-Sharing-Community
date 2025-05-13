@@ -1,5 +1,5 @@
 import React from "react";
-import FXModal from "./FXModal";
+import FXModal from "../UI/FXModal";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 

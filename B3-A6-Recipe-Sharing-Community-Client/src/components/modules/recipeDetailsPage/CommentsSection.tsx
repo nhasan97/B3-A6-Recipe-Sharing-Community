@@ -7,7 +7,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import FXInput from "../../form/FXInput";
+import FXInput from "../../UI/form/FXInput";
 import { useUser } from "@/src/context/user.provider";
 import { Button } from "@nextui-org/button";
 import AuthenticationModal from "../../modals/AuthenticationModal";

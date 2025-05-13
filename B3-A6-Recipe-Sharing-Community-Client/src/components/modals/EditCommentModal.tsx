@@ -1,10 +1,10 @@
 import React from "react";
-import FXModal from "./FXModal";
-import FXForm from "../form/FXForm";
+import FXModal from "../UI/FXModal";
+import FXForm from "../UI/form/FXForm";
 import { Button } from "@nextui-org/button";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { IComment } from "@/src/types/comment.type";
-import FXTextarea from "../form/FXTextarea";
+import FXTextarea from "../UI/form/FXTextarea";
 import { useUpdateComment } from "@/src/hooks/comment.hook";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 

@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import FXModal from "./FXModal";
-import FXForm from "../form/FXForm";
+import FXModal from "../UI/FXModal";
+import FXForm from "../UI/form/FXForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import FXTextarea from "../form/FXTextarea";
-import FXInput from "../form/FXInput";
+import FXTextarea from "../UI/form/FXTextarea";
+import FXInput from "../UI/form/FXInput";
 import { Button } from "@nextui-org/button";
 import { IUser } from "@/src/types/user.type";
 import { useUpdateUserProfile } from "@/src/hooks/user.hook";
