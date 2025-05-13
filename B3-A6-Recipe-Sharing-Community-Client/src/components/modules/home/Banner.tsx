@@ -12,19 +12,11 @@ const Banner = () => {
   return (
     <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-6 bg-red-700 p-5 rounded-lg">
       <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start justify-center text-center lg:text-left gap-6">
-<<<<<<< Updated upstream
-        <p className="text-lg lg:text-xl text-white">Welcom to</p>
-        <h1 className="glowing-text text-4xl xl:text-7xl font-bold">
-          Taste Tribe
-        </h1>
-        <p className="text-sm lg:text-base text-white">
-=======
         <p className="text-base lg:text-lg text-white">Welcom to</p>
         <h1 className="glowing-text text-4xl xl:text-7xl font-bold">
           Taste Tribe
         </h1>
         <p className="text-lg lg:text-xl text-white">
->>>>>>> Stashed changes
           Where Every Dish Tells a Story – Share, Discover, and Savor!
         </p>
       </div>
