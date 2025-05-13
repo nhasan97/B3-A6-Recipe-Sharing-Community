@@ -1,7 +1,7 @@
 import { IUser } from "@/src/types/user.type";
 import React from "react";
-import MembersListCard from "../../UI/MembersListCard";
-import NoData from "../../shared/NoData";
+import MembersListCard from "./components/MembersListCard";
+import NoData from "@/src/components/shared/NoData";
 
 const MembersList = ({
   userData,

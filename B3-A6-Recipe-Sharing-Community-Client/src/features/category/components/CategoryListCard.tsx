@@ -1,4 +1,4 @@
-import { ICategory } from "@/src/types/category.type";
+import { ICategory } from "@/src/features/category/types/category.type";
 import { Button } from "@nextui-org/button";
 import { Card, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";

@@ -1,12 +1,10 @@
 "use client";
 
-import { useFollowUnfollowMember } from "@/src/hooks/user.hook";
 import { IUser } from "@/src/types/user.type";
 import { Button } from "@nextui-org/button";
 import { Card, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import React, { useEffect, useState } from "react";
-import AuthenticationModal from "../modals/AuthenticationModal";
 import { Spinner } from "@nextui-org/spinner";
 import {
   Dropdown,
@@ -16,6 +14,8 @@ import {
 } from "@nextui-org/dropdown";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "@nextui-org/tooltip";
+import AuthenticationModal from "@/src/components/modals/AuthenticationModal";
+import { useFollowUnfollowMember } from "../hooks/followUnfollowHook";
 
 const MembersListCard = ({
   member,

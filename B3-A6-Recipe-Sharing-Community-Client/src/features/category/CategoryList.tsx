@@ -1,7 +1,7 @@
-import { ICategory } from "@/src/types/category.type";
+import { ICategory } from "@/src/features/category/types/category.type";
 import React from "react";
-import NoData from "../../shared/NoData";
-import CategoryListCard from "../../UI/CategoryListCard";
+import NoData from "../../components/shared/NoData";
+import CategoryListCard from "./components/CategoryListCard";
 
 const CategoryList = ({ categoryData }: { categoryData: ICategory[] }) => {
   return (
